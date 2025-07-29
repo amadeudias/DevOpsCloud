@@ -91,18 +91,18 @@ export class MemStorage implements IStorage {
       await this.createCategory(categoryData);
     }
 
-    // Seed author
+    // Seed author - PLACEHOLDER DATA - UPDATE WITH YOUR REAL INFORMATION
     const authorData: InsertAuthor = {
-      name: "João Silva",
-      title: "Senior DevOps Engineer",
-      bio: "Sou um engenheiro DevOps apaixonado por automação e infraestrutura como código, com mais de 8 anos de experiência em ambientes cloud e containers. Especializado em AWS, Kubernetes e práticas de FinOps.",
-      location: "São Paulo, Brasil",
-      experience: "8+ anos de experiência",
-      certification: "AWS Certified Solutions Architect",
-      imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
-      linkedinUrl: "#",
-      githubUrl: "#",
-      twitterUrl: "#"
+      name: "[SEU NOME AQUI]",
+      title: "[SEU CARGO/TÍTULO AQUI]",
+      bio: "[SUA BIOGRAFIA AQUI - Descreva sua experiência, paixões e especialidades em DevOps e Cloud]",
+      location: "[SUA LOCALIZAÇÃO AQUI]",
+      experience: "[SEUS ANOS DE EXPERIÊNCIA]",
+      certification: "[SUAS PRINCIPAIS CERTIFICAÇÕES]",
+      imageUrl: "[URL DA SUA FOTO PROFISSIONAL AQUI]",
+      linkedinUrl: "[SEU LINKEDIN AQUI]",
+      githubUrl: "[SEU GITHUB AQUI]",
+      twitterUrl: "[SEU TWITTER/X AQUI]"
     };
 
     await this.createAuthor(authorData);
