@@ -31,22 +31,19 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">DevOps Engineering</h3>
+            <h3 className="text-xl font-bold mb-4">Amadeu Dias</h3>
             <p className="text-gray-400 mb-4">
-              Compartilhando conhecimento sobre DevOps, Cloud Computing e melhores práticas de engenharia.
+              Compartilhando conhecimento sobre Cloud Architecture, DevOps, AWS e melhores práticas de engenharia.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="https://www.linkedin.com/in/amadeu-dias-158b8a146/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="https://github.com/amadeudias" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 <Github className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="https://www.instagram.com/amadeudiasaws/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Youtube className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -98,7 +95,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 DevOps Engineering Blog. Todos os direitos reservados.</p>
+          <p>&copy; 2024 Amadeu Dias - Cloud Architect Blog. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

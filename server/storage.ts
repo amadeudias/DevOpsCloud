@@ -91,18 +91,18 @@ export class MemStorage implements IStorage {
       await this.createCategory(categoryData);
     }
 
-    // Seed author - PLACEHOLDER DATA - UPDATE WITH YOUR REAL INFORMATION
+    // Seed author
     const authorData: InsertAuthor = {
-      name: "[SEU NOME AQUI]",
-      title: "[SEU CARGO/TÍTULO AQUI]",
-      bio: "[SUA BIOGRAFIA AQUI - Descreva sua experiência, paixões e especialidades em DevOps e Cloud]",
-      location: "[SUA LOCALIZAÇÃO AQUI]",
-      experience: "[SEUS ANOS DE EXPERIÊNCIA]",
-      certification: "[SUAS PRINCIPAIS CERTIFICAÇÕES]",
-      imageUrl: "[URL DA SUA FOTO PROFISSIONAL AQUI]",
-      linkedinUrl: "[SEU LINKEDIN AQUI]",
-      githubUrl: "[SEU GITHUB AQUI]",
-      twitterUrl: "[SEU TWITTER/X AQUI]"
+      name: "Amadeu Dias",
+      title: "Cloud Architect",
+      bio: "Sou um Cloud Architect apaixonado por arquiteturas escaláveis e soluções inovadoras na nuvem. Com 5 anos de experiência sólida em ambientes cloud, especializo-me em AWS, DevOps e transformação digital. Tenho expertise em projetar e implementar infraestruturas robustas, otimização de custos e práticas de segurança avançadas. Minha paixão está em ajudar empresas a acelerar sua jornada na nuvem através de soluções eficientes e estratégicas.",
+      location: "Goiânia - GO",
+      experience: "5 anos de experiência",
+      certification: "Solutions Architect AWS",
+      imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
+      linkedinUrl: "https://www.linkedin.com/in/amadeu-dias-158b8a146/",
+      githubUrl: "https://github.com/amadeudias",
+      twitterUrl: "https://www.instagram.com/amadeudiasaws/"
     };
 
     await this.createAuthor(authorData);
