@@ -54,9 +54,9 @@ export default function Footer() {
               {categories.map((category) => (
                 <li key={category.name}>
                   <Link href={category.href}>
-                    <a className="hover:text-white transition-colors">
+                    <span className="hover:text-white transition-colors cursor-pointer">
                       {category.name}
-                    </a>
+                    </span>
                   </Link>
                 </li>
               ))}
@@ -69,9 +69,9 @@ export default function Footer() {
               {resources.map((resource) => (
                 <li key={resource.name}>
                   <Link href={resource.href}>
-                    <a className="hover:text-white transition-colors">
+                    <span className="hover:text-white transition-colors cursor-pointer">
                       {resource.name}
-                    </a>
+                    </span>
                   </Link>
                 </li>
               ))}
@@ -84,9 +84,9 @@ export default function Footer() {
               {contact.map((item) => (
                 <li key={item.name}>
                   <Link href={item.href}>
-                    <a className="hover:text-white transition-colors">
+                    <span className="hover:text-white transition-colors cursor-pointer">
                       {item.name}
-                    </a>
+                    </span>
                   </Link>
                 </li>
               ))}

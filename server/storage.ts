@@ -95,7 +95,7 @@ export class MemStorage implements IStorage {
     const authorData: InsertAuthor = {
       name: "Amadeu Dias",
       title: "Cloud Architect",
-      bio: "Sou um Cloud Architect apaixonado por arquiteturas escaláveis e soluções inovadoras na nuvem. Com 5 anos de experiência sólida em ambientes cloud, especializo-me em AWS, DevOps e transformação digital. Tenho expertise em projetar e implementar infraestruturas robustas, otimização de custos e práticas de segurança avançadas. Minha paixão está em ajudar empresas a acelerar sua jornada na nuvem através de soluções eficientes e estratégicas.",
+      bio: "Sou especialista em Cloud Computing, com foco em AWS, DevOps, infraestrutura como código (Terraform) e modernização de aplicações. Tenho experiência prática com arquitetura de soluções, automação de ambientes, segurança na nuvem, containers (Docker, Kubernetes) e CI/CD. No blog, compartilho experiências reais de projetos, aprendizados em certificações, boas práticas e tutoriais técnicos voltados para profissionais de tecnologia que buscam evoluir na carreira em cloud e DevOps.",
       location: "Goiânia - GO",
       experience: "5 anos de experiência",
       certification: "Solutions Architect AWS",
