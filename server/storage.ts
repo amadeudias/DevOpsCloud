@@ -99,7 +99,7 @@ export class MemStorage implements IStorage {
       location: "Goiânia - GO",
       experience: "5 anos de experiência",
       certification: "Solutions Architect AWS",
-      imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
+      imageUrl: "/src/assets/profile-photo.jpeg",
       linkedinUrl: "https://www.linkedin.com/in/amadeu-dias-158b8a146/",
       githubUrl: "https://github.com/amadeudias",
       twitterUrl: "https://www.instagram.com/amadeudiasaws/"

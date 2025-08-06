@@ -35,19 +35,19 @@ export default function AboutSidebar() {
   ];
 
   const certifications = [
-    "AWS Solutions Architect",
-    "Certified Kubernetes Administrator",
-    "HashiCorp Terraform Associate", 
-    "FinOps Certified Practitioner"
+    "AWS Certified Solutions Architect – Associate",
+    "CyberOps Associate", 
+    "AWS Certified Cloud Practitioner",
+    "Google Cybersecurity"
   ];
 
   return (
     <Card className="shadow-xl overflow-hidden">
       <div className="bg-navy-800 p-6 text-white">
         <img 
-          src={author.imageUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400"} 
+          src={author.imageUrl} 
           alt={author.name}
-          className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-white"
+          className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-white object-cover"
         />
         <h3 className="text-xl font-bold text-center mb-1">{author.name}</h3>
         <p className="text-navy-200 text-center mb-4 text-sm">{author.title}</p>
