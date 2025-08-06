@@ -10,6 +10,8 @@ export interface IStorage {
   getFeaturedArticles(): Promise<Article[]>;
   getLatestArticles(limit?: number): Promise<Article[]>;
   createArticle(article: InsertArticle): Promise<Article>;
+  updateArticle(id: number, article: Partial<InsertArticle>): Promise<Article | null>;
+  deleteArticle(id: number): Promise<boolean>;
   searchArticles(query: string): Promise<Article[]>;
   
   // Categories
@@ -269,14 +271,14 @@ aws ce get-cost-and-usage \\
   }
 
   async createArticle(insertArticle: InsertArticle): Promise<Article> {
-    const id = randomUUID();
+    const id = Math.floor(Math.random() * 1000000);
     const article: Article = {
       ...insertArticle,
       id,
       publishedAt: new Date(),
       createdAt: new Date(),
     };
-    this.articles.set(id, article);
+    this.articles.set(article.slug, article);
     return article;
   }
 
@@ -308,6 +310,34 @@ aws ce get-cost-and-usage \\
     };
     this.categories.set(id, category);
     return category;
+  }
+
+  async updateArticle(id: number, articleData: Partial<InsertArticle>): Promise<Article | null> {
+    const existingArticle = Array.from(this.articles.values()).find(article => article.id === id);
+    if (!existingArticle) {
+      return null;
+    }
+
+    const updatedArticle: Article = {
+      ...existingArticle,
+      ...articleData,
+      id: existingArticle.id // Preserve the ID
+    };
+
+    // Remove old entry and add updated one
+    this.articles.delete(existingArticle.slug);
+    this.articles.set(updatedArticle.slug, updatedArticle);
+    return updatedArticle;
+  }
+
+  async deleteArticle(id: number): Promise<boolean> {
+    const article = Array.from(this.articles.values()).find(article => article.id === id);
+    if (!article) {
+      return false;
+    }
+
+    this.articles.delete(article.slug);
+    return true;
   }
 
   async getAuthor(): Promise<Author | undefined> {

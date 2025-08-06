@@ -51,6 +51,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.patch("/api/articles/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const updateData = insertArticleSchema.partial().parse(req.body);
+      const article = await storage.updateArticle(id, updateData);
+      if (!article) {
+        return res.status(404).json({ message: "Article not found" });
+      }
+      res.json(article);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid article data" });
+    }
+  });
+
+  app.delete("/api/articles/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deleteArticle(id);
+      if (!success) {
+        return res.status(404).json({ message: "Article not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete article" });
+    }
+  });
+
   // Categories routes
   app.get("/api/categories", async (req, res) => {
     try {

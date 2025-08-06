@@ -12,6 +12,7 @@ const navigation = [
   { name: "Cloud", href: "/category/cloud" },
   { name: "FinOps", href: "/category/finops" },
   { name: "About", href: "/about" },
+  { name: "Admin", href: "/admin" },
 ];
 
 export default function Header() {
