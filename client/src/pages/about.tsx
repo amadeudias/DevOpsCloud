@@ -57,10 +57,10 @@ export default function About() {
   ];
 
   const certifications = [
-    "AWS Solutions Architect",
-    "Certified Kubernetes Administrator",
-    "HashiCorp Terraform Associate", 
-    "FinOps Certified Practitioner"
+    "AWS Certified Solutions Architect – Associate",
+    "CyberOps Associate", 
+    "AWS Certified Cloud Practitioner",
+    "Google Cybersecurity"
   ];
 
   return (
@@ -69,9 +69,9 @@ export default function About() {
       <div className="navy-gradient text-white py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <img 
-            src={author.imageUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400"} 
+            src={author.imageUrl} 
             alt={author.name}
-            className="w-40 h-40 rounded-full mx-auto mb-6 border-4 border-white"
+            className="w-40 h-40 rounded-full mx-auto mb-6 border-4 border-white object-cover"
           />
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{author.name}</h1>
           <p className="text-xl text-navy-100 mb-2">{author.title}</p>
@@ -87,23 +87,13 @@ export default function About() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="shadow-xl">
             <CardContent className="p-8 md:p-12">
-              <div className="grid md:grid-cols-3 gap-8 mb-12">
-                <div className="flex items-center">
-                  <div className="bg-navy-100 p-3 rounded-lg mr-4">
-                    <Briefcase className="h-6 w-6 text-navy-800" />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">Experiência</div>
-                    <div className="text-gray-600">{author.experience}</div>
-                  </div>
-                </div>
-                
+              <div className="grid md:grid-cols-2 gap-8 mb-12">
                 <div className="flex items-center">
                   <div className="bg-navy-100 p-3 rounded-lg mr-4">
                     <GraduationCap className="h-6 w-6 text-navy-800" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">Certificação</div>
+                    <div className="font-semibold text-gray-900">Certificação Principal</div>
                     <div className="text-gray-600">{author.certification}</div>
                   </div>
                 </div>
@@ -186,11 +176,8 @@ export default function About() {
                   </a>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className="flex justify-center">
                   <button className="bg-navy-800 text-white px-8 py-3 rounded-lg hover:bg-navy-700 transition-colors">
-                    Download CV
-                  </button>
-                  <button className="border-2 border-navy-800 text-navy-800 px-8 py-3 rounded-lg hover:bg-navy-800 hover:text-white transition-colors">
                     Entre em Contato
                   </button>
                 </div>

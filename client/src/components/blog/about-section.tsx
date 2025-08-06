@@ -101,10 +101,7 @@ export default function AboutSection() {
                     <MapPin className="h-4 w-4 mr-2" />
                     <span>{author.location}</span>
                   </div>
-                  <div className="flex items-center">
-                    <Briefcase className="h-4 w-4 mr-2" />
-                    <span>{author.experience}</span>
-                  </div>
+
                   <div className="flex items-center">
                     <GraduationCap className="h-4 w-4 mr-2" />
                     <span>{author.certification}</span>
@@ -144,12 +141,9 @@ export default function AboutSection() {
                   </div>
                 </div>
                 
-                <div className="mt-6 space-y-2">
-                  <button className="w-full bg-navy-800 text-white px-4 py-2 rounded-lg text-sm hover:bg-navy-700 transition-colors">
-                    Download CV
-                  </button>
+                <div className="mt-6">
                   <Link href="/about">
-                    <button className="w-full border-2 border-navy-800 text-navy-800 px-4 py-2 rounded-lg text-sm hover:bg-navy-800 hover:text-white transition-colors">
+                    <button className="w-full bg-navy-800 text-white px-4 py-2 rounded-lg text-sm hover:bg-navy-700 transition-colors">
                       Entre em Contato
                     </button>
                   </Link>
