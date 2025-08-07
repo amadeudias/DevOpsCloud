@@ -2,8 +2,29 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertArticleSchema, insertCategorySchema, insertAuthorSchema } from "@shared/schema";
+import { setupAuth, isAuthenticated } from "./replitAuth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup authentication
+  await setupAuth(app);
+
+  // Auth routes
+  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+    try {
+      const user = req.user?.claims || req.user;
+      res.json({
+        id: user.sub || user.id,
+        email: user.email,
+        name: `${user.first_name || ''} ${user.last_name || ''}`.trim(),
+        firstName: user.first_name,
+        lastName: user.last_name,
+        profileImageUrl: user.profile_image_url
+      });
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
   // Articles routes
   app.get("/api/articles", async (req, res) => {
     try {
@@ -41,7 +62,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/articles", async (req, res) => {
+  app.post("/api/articles", isAuthenticated, async (req, res) => {
     try {
       const articleData = insertArticleSchema.parse(req.body);
       const article = await storage.createArticle(articleData);
@@ -51,7 +72,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/articles/:id", async (req, res) => {
+  app.patch("/api/articles/:id", isAuthenticated, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const updateData = insertArticleSchema.partial().parse(req.body);
@@ -65,7 +86,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/articles/:id", async (req, res) => {
+  app.delete("/api/articles/:id", isAuthenticated, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const success = await storage.deleteArticle(id);

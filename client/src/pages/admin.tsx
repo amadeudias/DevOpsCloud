@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,8 +7,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Edit, Trash2, Eye } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
+import { isUnauthorizedError } from "@/lib/authUtils";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Article, InsertArticle } from "@shared/schema";
 
@@ -17,8 +19,52 @@ export default function Admin() {
   const [isEditing, setIsEditing] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
+  const { isAuthenticated, isLoading, user } = useAuth();
 
-  const { data: articles, isLoading } = useQuery({
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      toast({
+        title: "Acesso Restrito",
+        description: "Você precisa fazer login para acessar o painel admin.",
+        variant: "destructive",
+      });
+      setTimeout(() => {
+        window.location.href = "/api/login";
+      }, 2000);
+      return;
+    }
+  }, [isAuthenticated, isLoading, toast]);
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <Lock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          <p className="text-gray-600">Verificando autenticação...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render admin panel if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <Lock className="h-12 w-12 text-red-500 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Acesso Restrito</h2>
+          <p className="text-gray-600 mb-4">Você precisa fazer login para acessar o painel admin.</p>
+          <Button onClick={() => window.location.href = "/api/login"}>
+            Fazer Login
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const { data: articles, isLoading: articlesLoading } = useQuery({
     queryKey: ['/api/articles'],
   });
 
@@ -28,24 +74,68 @@ export default function Admin() {
 
   const createMutation = useMutation({
     mutationFn: (article: InsertArticle) => 
-      apiRequest('/api/articles', { method: 'POST', body: article }),
+      apiRequest('/api/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(article)
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/articles'] });
       setIsDialogOpen(false);
       setSelectedArticle(null);
       toast({ description: "Artigo criado com sucesso!" });
     },
+    onError: (error) => {
+      if (isUnauthorizedError(error)) {
+        toast({
+          title: "Sessão Expirada",
+          description: "Fazendo login novamente...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/api/login";
+        }, 1000);
+        return;
+      }
+      toast({
+        title: "Erro",
+        description: "Falha ao criar artigo.",
+        variant: "destructive",
+      });
+    },
   });
 
   const updateMutation = useMutation({
     mutationFn: ({ id, article }: { id: number; article: Partial<InsertArticle> }) =>
-      apiRequest(`/api/articles/${id}`, { method: 'PATCH', body: article }),
+      apiRequest(`/api/articles/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(article)
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/articles'] });
       setIsDialogOpen(false);
       setSelectedArticle(null);
       setIsEditing(false);
       toast({ description: "Artigo atualizado com sucesso!" });
+    },
+    onError: (error) => {
+      if (isUnauthorizedError(error)) {
+        toast({
+          title: "Sessão Expirada",
+          description: "Fazendo login novamente...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/api/login";
+        }, 1000);
+        return;
+      }
+      toast({
+        title: "Erro",
+        description: "Falha ao atualizar artigo.",
+        variant: "destructive",
+      });
     },
   });
 
@@ -55,6 +145,24 @@ export default function Admin() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/articles'] });
       toast({ description: "Artigo deletado com sucesso!" });
+    },
+    onError: (error) => {
+      if (isUnauthorizedError(error)) {
+        toast({
+          title: "Sessão Expirada",
+          description: "Fazendo login novamente...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/api/login";
+        }, 1000);
+        return;
+      }
+      toast({
+        title: "Erro",
+        description: "Falha ao deletar artigo.",
+        variant: "destructive",
+      });
     },
   });
 
@@ -75,7 +183,7 @@ export default function Admin() {
     };
 
     if (isEditing && selectedArticle) {
-      updateMutation.mutate({ id: selectedArticle.id, article });
+      updateMutation.mutate({ id: Number(selectedArticle.id), article });
     } else {
       createMutation.mutate(article);
     }
@@ -172,7 +280,7 @@ export default function Admin() {
                         <SelectValue placeholder="Selecione uma categoria" />
                       </SelectTrigger>
                       <SelectContent>
-                        {categories?.map((cat: any) => (
+                        {(categories || []).map((cat: any) => (
                           <SelectItem key={cat.slug} value={cat.slug}>
                             {cat.name}
                           </SelectItem>
@@ -243,7 +351,7 @@ export default function Admin() {
         </div>
 
         <div className="grid gap-4">
-          {articles?.map((article: Article) => (
+          {(articles || []).map((article: Article) => (
             <Card key={article.id}>
               <CardContent className="p-6">
                 <div className="flex justify-between items-start">
@@ -277,7 +385,7 @@ export default function Admin() {
                     <Button 
                       size="sm" 
                       variant="destructive"
-                      onClick={() => deleteMutation.mutate(article.id)}
+                      onClick={() => deleteMutation.mutate(Number(article.id))}
                       disabled={deleteMutation.isPending}
                     >
                       <Trash2 className="h-4 w-4" />
