@@ -68,26 +68,96 @@ export async function setupAuth(app: Express) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // For development, create a simple mock authentication
+  // Simple password authentication (no database needed)
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com";
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "dev123"; // Change in production!
+  const ADMIN_NAME = process.env.ADMIN_NAME || "Administrator";
+
+  // Login page route
   app.get("/api/login", (req, res) => {
-    // In development, simulate a successful login
-    const mockUser = {
-      claims: {
-        sub: "dev-user",
-        email: "admin@example.com",
-        first_name: "Admin",
-        last_name: "User"
-      },
-      access_token: "dev-token",
-      expires_at: Math.floor(Date.now() / 1000) + 3600
-    };
+    if (req.isAuthenticated()) {
+      return res.redirect("/admin");
+    }
+
+    // In development, auto-login for convenience
+    if (process.env.NODE_ENV === "development") {
+      const mockUser = {
+        claims: {
+          sub: "dev-user",
+          email: ADMIN_EMAIL,
+          first_name: ADMIN_NAME,
+          last_name: "User"
+        },
+        access_token: "dev-token",
+        expires_at: Math.floor(Date.now() / 1000) + 3600
+      };
+      
+      req.login(mockUser, (err) => {
+        if (err) {
+          return res.status(500).json({ message: "Login failed" });
+        }
+        res.redirect("/admin");
+      });
+    } else {
+      // In production, show login form
+      res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Login - Admin Panel</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <style>
+            body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+            .container { max-width: 400px; margin: 100px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+            h1 { text-align: center; color: #1e3a8a; margin-bottom: 30px; }
+            input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+            button { width: 100%; background: #1e3a8a; color: white; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+            button:hover { background: #1e40af; }
+            .error { color: red; text-align: center; margin-top: 10px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h1>Login Admin</h1>
+            <form method="POST" action="/api/login">
+              <input type="email" name="email" placeholder="Email" required>
+              <input type="password" name="password" placeholder="Senha" required>
+              <button type="submit">Entrar</button>
+            </form>
+            ${req.query.error ? '<div class="error">Email ou senha inválidos</div>' : ''}
+          </div>
+        </body>
+        </html>
+      `);
+    }
+  });
+
+  // Login form submission
+  app.post("/api/login", (req, res) => {
+    const { email, password } = req.body;
     
-    req.login(mockUser, (err) => {
-      if (err) {
-        return res.status(500).json({ message: "Login failed" });
-      }
-      res.redirect("/admin");
-    });
+    // Simple credential check (no database needed)
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      const user = {
+        claims: {
+          sub: "admin-user",
+          email: email,
+          first_name: ADMIN_NAME,
+          last_name: ""
+        },
+        access_token: "admin-token",
+        expires_at: Math.floor(Date.now() / 1000) + 86400 // 24 hours
+      };
+      
+      req.login(user, (err) => {
+        if (err) {
+          return res.redirect("/api/login?error=1");
+        }
+        res.redirect("/admin");
+      });
+    } else {
+      res.redirect("/api/login?error=1");
+    }
   });
 
   app.get("/api/logout", (req, res) => {
