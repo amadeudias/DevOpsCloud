@@ -1,31 +1,9 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist/public",
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/articles/([^/]+)",
-      "dest": "/api/articles/[slug].js"
-    },
-    {
-      "src": "/api/articles",
-      "dest": "/api/articles.js"
-    },
-    {
-      "src": "/api/categories/([^/]+)",
-      "dest": "/api/categories/[slug].js"
-    },
-    {
-      "src": "/api/categories",
-      "dest": "/api/categories.js"
-    },
-    {
-      "src": "/api/author",
-      "dest": "/api/author.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/((?!api/.*).*)",
+      "destination": "/index.html"
     }
   ]
 }
