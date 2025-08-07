@@ -8,7 +8,7 @@ import Home from "@/pages/home";
 import Category from "@/pages/category";
 import Article from "@/pages/article";
 import About from "@/pages/about";
-import Admin from "@/pages/admin";
+import AdminSimple from "@/pages/admin-simple";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
@@ -22,7 +22,7 @@ function Router() {
           <Route path="/category/:slug" component={Category} />
           <Route path="/article/:slug" component={Article} />
           <Route path="/about" component={About} />
-          <Route path="/admin" component={Admin} />
+          <Route path="/admin" component={AdminSimple} />
           <Route component={NotFound} />
         </Switch>
       </main>

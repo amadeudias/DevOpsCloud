@@ -2,29 +2,8 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertArticleSchema, insertCategorySchema, insertAuthorSchema } from "@shared/schema";
-// Authentication removed for static deployment
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Setup authentication
-  await setupAuth(app);
-
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const user = req.user?.claims || req.user;
-      res.json({
-        id: user.sub || user.id,
-        email: user.email,
-        name: `${user.first_name || ''} ${user.last_name || ''}`.trim(),
-        firstName: user.first_name,
-        lastName: user.last_name,
-        profileImageUrl: user.profile_image_url
-      });
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
   // Articles routes
   app.get("/api/articles", async (req, res) => {
     try {
@@ -62,7 +41,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/articles", isAuthenticated, async (req, res) => {
+  // Admin routes - no authentication required
+  app.post("/api/articles", async (req, res) => {
     try {
       const articleData = insertArticleSchema.parse(req.body);
       const article = await storage.createArticle(articleData);
@@ -72,28 +52,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/articles/:id", isAuthenticated, async (req, res) => {
+  app.patch("/api/articles/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      const updateData = insertArticleSchema.partial().parse(req.body);
-      const article = await storage.updateArticle(id, updateData);
+      const articleData = insertArticleSchema.partial().parse(req.body);
+      const article = await storage.updateArticle(parseInt(req.params.id), articleData);
+      
       if (!article) {
         return res.status(404).json({ message: "Article not found" });
       }
+      
       res.json(article);
     } catch (error) {
       res.status(400).json({ message: "Invalid article data" });
     }
   });
 
-  app.delete("/api/articles/:id", isAuthenticated, async (req, res) => {
+  app.delete("/api/articles/:id", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      const success = await storage.deleteArticle(id);
+      const success = await storage.deleteArticle(parseInt(req.params.id));
+      
       if (!success) {
         return res.status(404).json({ message: "Article not found" });
       }
-      res.status(204).send();
+      
+      res.json({ message: "Article deleted successfully" });
     } catch (error) {
       res.status(500).json({ message: "Failed to delete article" });
     }
@@ -121,30 +103,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Author routes
+  // Author route
   app.get("/api/author", async (req, res) => {
     try {
       const author = await storage.getAuthor();
-      if (!author) {
-        return res.status(404).json({ message: "Author not found" });
-      }
       res.json(author);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch author" });
-    }
-  });
-
-  // Newsletter subscription (placeholder)
-  app.post("/api/newsletter", async (req, res) => {
-    try {
-      const { email } = req.body;
-      if (!email || !email.includes('@')) {
-        return res.status(400).json({ message: "Valid email is required" });
-      }
-      // In a real app, this would save to database and send confirmation email
-      res.json({ message: "Successfully subscribed to newsletter" });
-    } catch (error) {
-      res.status(500).json({ message: "Failed to subscribe to newsletter" });
     }
   });
 

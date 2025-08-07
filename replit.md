@@ -50,12 +50,11 @@ Preferred communication style: Simple, everyday language.
 - **Categories**: Content organization (DevOps, Kubernetes, Security, AWS, Cloud, FinOps)
 - **Author**: Single author profile with professional information
 
-### Authentication System
-- **Development**: Auto-login when accessing `/admin` for convenience
-- **Production**: Email/password login using environment variables
-- **Security**: Session-based authentication with 24-hour expiration
-- **No Database Required**: Credentials stored in environment variables only
-- **Protected Routes**: All admin CRUD operations require authentication
+### Admin System (No Authentication)
+- **Access**: Admin panel accessible via direct URL (`/admin`)
+- **Security**: URL-based protection (not exposed in navigation)
+- **Deployment**: Ready for static hosting (Vercel, Netlify, etc.)
+- **Cost**: Deploy for free with custom domain support
 
 ### Frontend Components
 - **Layout**: Header with navigation and search, footer with links and social media
@@ -78,16 +77,13 @@ Preferred communication style: Simple, everyday language.
 ### API Endpoints
 - `GET /api/articles` - List articles with optional filters (category, featured, latest, search)
 - `GET /api/articles/:slug` - Get single article by slug
-- `POST /api/articles` - Create new article (requires authentication)
-- `PATCH /api/articles/:id` - Update article (requires authentication)
-- `DELETE /api/articles/:id` - Delete article (requires authentication)
+- `POST /api/articles` - Create new article (no authentication)
+- `PATCH /api/articles/:id` - Update article (no authentication)  
+- `DELETE /api/articles/:id` - Delete article (no authentication)
 - `GET /api/categories` - List all categories
 - `GET /api/categories/:slug` - Get single category
 - `GET /api/author` - Get author information
-- `GET /api/auth/user` - Get current authenticated user (requires authentication)
-- `GET /api/login` - Login page (auto-login in dev, form in production)
-- `POST /api/login` - Process login credentials
-- `GET /api/logout` - Logout and redirect to home
+- Authentication routes removed for static deployment compatibility
 
 ## External Dependencies
 
