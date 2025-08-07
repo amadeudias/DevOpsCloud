@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "client/src/**/*",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/public"
+      }
+    },
+    {
+      "src": "server/routes-simple.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/server/routes-simple.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/public/$1"
+    }
+  ],
+  "functions": {
+    "server/routes-simple.ts": {
+      "maxDuration": 10
+    }
+  }
+}
