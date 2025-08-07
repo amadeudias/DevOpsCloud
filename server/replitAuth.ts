@@ -69,9 +69,9 @@ export async function setupAuth(app: Express) {
   app.use(passport.session());
 
   // Simple password authentication (no database needed)
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com";
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "dev123"; // Change in production!
-  const ADMIN_NAME = process.env.ADMIN_NAME || "Administrator";
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "amadeu.dias@gmail.com";
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Mudar@2025!"; // Change in production!
+  const ADMIN_NAME = process.env.ADMIN_NAME || "Amadeu Dias";
 
   // Login page route
   app.get("/api/login", (req, res) => {

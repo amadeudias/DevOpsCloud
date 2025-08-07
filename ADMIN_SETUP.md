@@ -11,9 +11,9 @@ Configure as variáveis de ambiente para criar sua conta admin:
 
 ```bash
 # Suas credenciais de admin
-ADMIN_EMAIL=seu-email@exemplo.com
-ADMIN_PASSWORD=sua-senha-forte-aqui  
-ADMIN_NAME=Seu Nome
+ADMIN_EMAIL=amadeu.dias@gmail.com
+ADMIN_PASSWORD=Mudar@2025!
+ADMIN_NAME=Amadeu Dias
 
 # Chave secreta para sessões (obrigatório em produção)
 SESSION_SECRET=uma-chave-muito-forte-e-aleatoria-aqui
@@ -54,8 +54,8 @@ NODE_ENV=production
 
 1. **Configure as variáveis de ambiente:**
    ```bash
-   ADMIN_EMAIL=amadeu@exemplo.com
-   ADMIN_PASSWORD=MinhaSenh@Forte123!
+   ADMIN_EMAIL=amadeu.dias@gmail.com
+   ADMIN_PASSWORD=Mudar@2025!
    ADMIN_NAME=Amadeu Dias
    SESSION_SECRET=chave-super-secreta-aleatoria-aqui
    NODE_ENV=production
