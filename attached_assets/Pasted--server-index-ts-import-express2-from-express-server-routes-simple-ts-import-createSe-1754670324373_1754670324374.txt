@@ -1,0 +1,609 @@
+// server/index.ts
+import express2 from "express";
+
+// server/routes-simple.ts
+import { createServer } from "http";
+
+// server/storage.ts
+import { randomUUID } from "crypto";
+var MemStorage = class {
+  articles;
+  categories;
+  author;
+  constructor() {
+    this.articles = /* @__PURE__ */ new Map();
+    this.categories = /* @__PURE__ */ new Map();
+    this.author = void 0;
+    this.seedData();
+  }
+  async seedData() {
+    const categoriesData = [
+      {
+        name: "DevOps",
+        slug: "devops",
+        description: "Automa\xE7\xE3o, CI/CD, infraestrutura como c\xF3digo e melhores pr\xE1ticas de DevOps.",
+        icon: "fas fa-cogs",
+        color: "navy",
+        articleCount: 12
+      },
+      {
+        name: "Kubernetes",
+        slug: "kubernetes",
+        description: "Orquestra\xE7\xE3o de containers, deployment strategies e gerenciamento de clusters.",
+        icon: "fas fa-dharmachakra",
+        color: "blue",
+        articleCount: 8
+      },
+      {
+        name: "Security",
+        slug: "security",
+        description: "Seguran\xE7a em cloud, compliance, monitoramento e gest\xE3o de vulnerabilidades.",
+        icon: "fas fa-shield-alt",
+        color: "red",
+        articleCount: 10
+      },
+      {
+        name: "AWS",
+        slug: "aws",
+        description: "Servi\xE7os AWS, arquiteturas cloud-native e otimiza\xE7\xE3o de custos.",
+        icon: "fab fa-aws",
+        color: "orange",
+        articleCount: 15
+      },
+      {
+        name: "Cloud",
+        slug: "cloud",
+        description: "Estrat\xE9gias multi-cloud, migra\xE7\xE3o e arquiteturas distribu\xEDdas.",
+        icon: "fas fa-cloud",
+        color: "green",
+        articleCount: 9
+      },
+      {
+        name: "FinOps",
+        slug: "finops",
+        description: "Otimiza\xE7\xE3o de custos cloud, governan\xE7a financeira e m\xE9tricas de ROI.",
+        icon: "fas fa-chart-line",
+        color: "purple",
+        articleCount: 6
+      }
+    ];
+    for (const categoryData of categoriesData) {
+      await this.createCategory(categoryData);
+    }
+    const authorData = {
+      name: "Amadeu Dias",
+      title: "Cloud Architect",
+      bio: "Sou especialista em Cloud Computing, com foco em AWS, DevOps, infraestrutura como c\xF3digo (Terraform) e moderniza\xE7\xE3o de aplica\xE7\xF5es. Tenho experi\xEAncia pr\xE1tica com arquitetura de solu\xE7\xF5es, automa\xE7\xE3o de ambientes, seguran\xE7a na nuvem, containers (Docker, Kubernetes) e CI/CD. No blog, compartilho experi\xEAncias reais de projetos, aprendizados em certifica\xE7\xF5es, boas pr\xE1ticas e tutoriais t\xE9cnicos voltados para profissionais de tecnologia que buscam evoluir na carreira em cloud e DevOps.",
+      location: "Goi\xE2nia - GO",
+      certification: "Solutions Architect AWS",
+      imageUrl: "/src/assets/profile-photo.jpeg",
+      linkedinUrl: "https://www.linkedin.com/in/amadeu-dias-158b8a146/",
+      githubUrl: "https://github.com/amadeudias",
+      twitterUrl: "https://www.instagram.com/amadeudiasaws/"
+    };
+    await this.createAuthor(authorData);
+    const articlesData = [
+      {
+        title: "Implementando CI/CD com Jenkins e Docker",
+        slug: "implementando-cicd-jenkins-docker",
+        excerpt: "Aprenda a configurar um pipeline completo de CI/CD usando Jenkins e Docker para automatizar seus deployments...",
+        content: "Conte\xFAdo completo do artigo sobre CI/CD com Jenkins e Docker...",
+        category: "DevOps",
+        tags: ["DevOps", "Jenkins", "Docker", "CI/CD"],
+        readTime: 5,
+        featured: true,
+        imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+        codePreview: `pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'docker build -t myapp .'
+            }
+        }
+    }
+}`
+      },
+      {
+        title: "Kubernetes: Gerenciamento de Recursos e Autoscaling",
+        slug: "kubernetes-gerenciamento-recursos-autoscaling",
+        excerpt: "Domine as estrat\xE9gias de gerenciamento de recursos no Kubernetes e implemente autoscaling eficiente...",
+        content: "Conte\xFAdo completo do artigo sobre Kubernetes...",
+        category: "Kubernetes",
+        tags: ["Kubernetes", "Autoscaling", "Resources"],
+        readTime: 8,
+        featured: true,
+        imageUrl: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+        codePreview: `apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: php-apache
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php-apache
+  minReplicas: 1
+  maxReplicas: 10`
+      },
+      {
+        title: "Seguran\xE7a na AWS: IAM e Compliance",
+        slug: "seguranca-aws-iam-compliance",
+        excerpt: "Estrat\xE9gias essenciais para implementar seguran\xE7a robusta na AWS com foco em IAM policies e compliance...",
+        content: "Conte\xFAdo completo do artigo sobre seguran\xE7a AWS...",
+        category: "Security",
+        tags: ["AWS", "Security", "IAM", "Compliance"],
+        readTime: 6,
+        featured: true,
+        imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+        codePreview: `{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::mybucket/*"
+    }
+  ]
+}`
+      },
+      {
+        title: "Infraestrutura como C\xF3digo com Terraform na AWS",
+        slug: "infraestrutura-codigo-terraform-aws",
+        excerpt: "Descubra como implementar infraestrutura como c\xF3digo usando Terraform para provisionar recursos AWS de forma eficiente e escal\xE1vel. Incluindo exemplos pr\xE1ticos de m\xF3dulos reutiliz\xE1veis.",
+        content: "Conte\xFAdo completo do artigo sobre Terraform...",
+        category: "DevOps",
+        tags: ["DevOps", "Terraform", "AWS", "IaC"],
+        readTime: 7,
+        featured: false,
+        imageUrl: "https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        codePreview: `resource "aws_instance" "web" {
+  ami           = "ami-0c55b159cbfafe1d0"
+  instance_type = "t3.micro"
+  
+  tags = {
+    Name = "WebServer"
+  }
+}`
+      },
+      {
+        title: "Monitoramento Avan\xE7ado com Prometheus e Grafana",
+        slug: "monitoramento-avancado-prometheus-grafana",
+        excerpt: "Implemente um sistema completo de monitoramento para clusters Kubernetes usando Prometheus para coleta de m\xE9tricas e Grafana para visualiza\xE7\xE3o, incluindo alertas customizados.",
+        content: "Conte\xFAdo completo do artigo sobre monitoramento...",
+        category: "Kubernetes",
+        tags: ["Kubernetes", "Monitoring", "Prometheus", "Grafana"],
+        readTime: 10,
+        featured: false,
+        imageUrl: "https://images.unsplash.com/photo-1551808525-51a94da548ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        codePreview: `apiVersion: v1
+kind: ServiceMonitor
+metadata:
+  name: app-monitor
+spec:
+  selector:
+    matchLabels:
+      app: my-app`
+      },
+      {
+        title: "Estrat\xE9gias de Otimiza\xE7\xE3o de Custos AWS",
+        slug: "estrategias-otimizacao-custos-aws",
+        excerpt: "Reduza seus custos AWS em at\xE9 40% com estrat\xE9gias comprovadas de FinOps. Aprenda sobre Reserved Instances, Spot Instances, rightsizing e governan\xE7a de recursos.",
+        content: "Conte\xFAdo completo do artigo sobre FinOps...",
+        category: "FinOps",
+        tags: ["FinOps", "AWS", "Cost Optimization"],
+        readTime: 12,
+        featured: false,
+        imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        codePreview: `# AWS CLI para an\xE1lise de custos
+aws ce get-cost-and-usage \\
+  --time-period Start=2024-01-01,End=2024-12-31 \\
+  --granularity MONTHLY \\
+  --metrics BlendedCost`
+      }
+    ];
+    for (const articleData of articlesData) {
+      await this.createArticle(articleData);
+    }
+  }
+  async getArticles() {
+    return Array.from(this.articles.values()).sort(
+      (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    );
+  }
+  async getArticleById(id) {
+    return this.articles.get(id);
+  }
+  async getArticleBySlug(slug) {
+    return Array.from(this.articles.values()).find(
+      (article) => article.slug === slug
+    );
+  }
+  async getArticlesByCategory(category) {
+    return Array.from(this.articles.values()).filter((article) => article.category.toLowerCase() === category.toLowerCase()).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  }
+  async getFeaturedArticles() {
+    return Array.from(this.articles.values()).filter((article) => article.featured).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  }
+  async getLatestArticles(limit = 5) {
+    return Array.from(this.articles.values()).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()).slice(0, limit);
+  }
+  async createArticle(insertArticle) {
+    const id = Math.floor(Math.random() * 1e6);
+    const article = {
+      ...insertArticle,
+      id,
+      publishedAt: /* @__PURE__ */ new Date(),
+      createdAt: /* @__PURE__ */ new Date()
+    };
+    this.articles.set(article.slug, article);
+    return article;
+  }
+  async searchArticles(query) {
+    const searchTerm = query.toLowerCase();
+    return Array.from(this.articles.values()).filter(
+      (article) => article.title.toLowerCase().includes(searchTerm) || article.excerpt.toLowerCase().includes(searchTerm) || article.tags?.some((tag) => tag.toLowerCase().includes(searchTerm))
+    );
+  }
+  async getCategories() {
+    return Array.from(this.categories.values());
+  }
+  async getCategoryBySlug(slug) {
+    return Array.from(this.categories.values()).find(
+      (category) => category.slug === slug
+    );
+  }
+  async createCategory(insertCategory) {
+    const id = randomUUID();
+    const category = {
+      ...insertCategory,
+      id
+    };
+    this.categories.set(id, category);
+    return category;
+  }
+  async updateArticle(id, articleData) {
+    const existingArticle = Array.from(this.articles.values()).find((article) => article.id === id);
+    if (!existingArticle) {
+      return null;
+    }
+    const updatedArticle = {
+      ...existingArticle,
+      ...articleData,
+      id: existingArticle.id
+      // Preserve the ID
+    };
+    this.articles.delete(existingArticle.slug);
+    this.articles.set(updatedArticle.slug, updatedArticle);
+    return updatedArticle;
+  }
+  async deleteArticle(id) {
+    const article = Array.from(this.articles.values()).find((article2) => article2.id === id);
+    if (!article) {
+      return false;
+    }
+    this.articles.delete(article.slug);
+    return true;
+  }
+  async getAuthor() {
+    return this.author;
+  }
+  async createAuthor(insertAuthor) {
+    const id = randomUUID();
+    const author2 = {
+      ...insertAuthor,
+      id
+    };
+    this.author = author2;
+    return author2;
+  }
+};
+var storage = new MemStorage();
+
+// shared/schema.ts
+import { sql } from "drizzle-orm";
+import { pgTable, text, varchar, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
+var articles = pgTable("articles", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  excerpt: text("excerpt").notNull(),
+  content: text("content").notNull(),
+  category: text("category").notNull(),
+  tags: text("tags").array(),
+  readTime: integer("read_time").notNull(),
+  featured: boolean("featured").default(false),
+  imageUrl: text("image_url"),
+  codePreview: text("code_preview"),
+  publishedAt: timestamp("published_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow()
+});
+var categories = pgTable("categories", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  description: text("description").notNull(),
+  icon: text("icon").notNull(),
+  color: text("color").notNull(),
+  articleCount: integer("article_count").default(0)
+});
+var author = pgTable("author", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  title: text("title").notNull(),
+  bio: text("bio").notNull(),
+  location: text("location").notNull(),
+  experience: text("experience").notNull(),
+  certification: text("certification").notNull(),
+  imageUrl: text("image_url"),
+  linkedinUrl: text("linkedin_url"),
+  githubUrl: text("github_url"),
+  twitterUrl: text("twitter_url")
+});
+var insertArticleSchema = createInsertSchema(articles).omit({
+  id: true,
+  createdAt: true,
+  publishedAt: true
+});
+var insertCategorySchema = createInsertSchema(categories).omit({
+  id: true
+});
+var insertAuthorSchema = createInsertSchema(author).omit({
+  id: true
+});
+
+// server/routes-simple.ts
+async function registerRoutes(app2) {
+  app2.get("/api/articles", async (req, res) => {
+    try {
+      const { category, featured, latest, limit, search } = req.query;
+      let articles2;
+      if (search) {
+        articles2 = await storage.searchArticles(search);
+      } else if (category) {
+        articles2 = await storage.getArticlesByCategory(category);
+      } else if (featured === "true") {
+        articles2 = await storage.getFeaturedArticles();
+      } else if (latest === "true") {
+        articles2 = await storage.getLatestArticles(parseInt(limit) || 5);
+      } else {
+        articles2 = await storage.getArticles();
+      }
+      res.json(articles2);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch articles" });
+    }
+  });
+  app2.get("/api/articles/:slug", async (req, res) => {
+    try {
+      const article = await storage.getArticleBySlug(req.params.slug);
+      if (!article) {
+        return res.status(404).json({ message: "Article not found" });
+      }
+      res.json(article);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch article" });
+    }
+  });
+  app2.post("/api/articles", async (req, res) => {
+    try {
+      const articleData = insertArticleSchema.parse(req.body);
+      const article = await storage.createArticle(articleData);
+      res.status(201).json(article);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid article data" });
+    }
+  });
+  app2.patch("/api/articles/:id", async (req, res) => {
+    try {
+      const articleData = insertArticleSchema.partial().parse(req.body);
+      const article = await storage.updateArticle(parseInt(req.params.id), articleData);
+      if (!article) {
+        return res.status(404).json({ message: "Article not found" });
+      }
+      res.json(article);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid article data" });
+    }
+  });
+  app2.delete("/api/articles/:id", async (req, res) => {
+    try {
+      const success = await storage.deleteArticle(parseInt(req.params.id));
+      if (!success) {
+        return res.status(404).json({ message: "Article not found" });
+      }
+      res.json({ message: "Article deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete article" });
+    }
+  });
+  app2.get("/api/categories", async (req, res) => {
+    try {
+      const categories2 = await storage.getCategories();
+      res.json(categories2);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch categories" });
+    }
+  });
+  app2.get("/api/categories/:slug", async (req, res) => {
+    try {
+      const category = await storage.getCategoryBySlug(req.params.slug);
+      if (!category) {
+        return res.status(404).json({ message: "Category not found" });
+      }
+      res.json(category);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch category" });
+    }
+  });
+  app2.get("/api/author", async (req, res) => {
+    try {
+      const author2 = await storage.getAuthor();
+      res.json(author2);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch author" });
+    }
+  });
+  const httpServer = createServer(app2);
+  return httpServer;
+}
+
+// server/vite.ts
+import express from "express";
+import fs from "fs";
+import path2 from "path";
+import { createServer as createViteServer, createLogger } from "vite";
+
+// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+var vite_config_default = defineConfig({
+  plugins: [
+    react(),
+    runtimeErrorOverlay(),
+    ...process.env.NODE_ENV !== "production" && process.env.REPL_ID !== void 0 ? [
+      await import("@replit/vite-plugin-cartographer").then(
+        (m) => m.cartographer()
+      )
+    ] : []
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(import.meta.dirname, "client", "src"),
+      "@shared": path.resolve(import.meta.dirname, "shared"),
+      "@assets": path.resolve(import.meta.dirname, "attached_assets")
+    }
+  },
+  root: path.resolve(import.meta.dirname, "client"),
+  build: {
+    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    emptyOutDir: true
+  },
+  server: {
+    fs: {
+      strict: true,
+      deny: ["**/.*"]
+    }
+  }
+});
+
+// server/vite.ts
+import { nanoid } from "nanoid";
+var viteLogger = createLogger();
+function log(message, source = "express") {
+  const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
+async function setupVite(app2, server) {
+  const serverOptions = {
+    middlewareMode: true,
+    hmr: { server },
+    allowedHosts: true
+  };
+  const vite = await createViteServer({
+    ...vite_config_default,
+    configFile: false,
+    customLogger: {
+      ...viteLogger,
+      error: (msg, options) => {
+        viteLogger.error(msg, options);
+        process.exit(1);
+      }
+    },
+    server: serverOptions,
+    appType: "custom"
+  });
+  app2.use(vite.middlewares);
+  app2.use("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    try {
+      const clientTemplate = path2.resolve(
+        import.meta.dirname,
+        "..",
+        "client",
+        "index.html"
+      );
+      let template = await fs.promises.readFile(clientTemplate, "utf-8");
+      template = template.replace(
+        `src="/src/main.tsx"`,
+        `src="/src/main.tsx?v=${nanoid()}"`
+      );
+      const page = await vite.transformIndexHtml(url, template);
+      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+    } catch (e) {
+      vite.ssrFixStacktrace(e);
+      next(e);
+    }
+  });
+}
+function serveStatic(app2) {
+  const distPath = path2.resolve(import.meta.dirname, "public");
+  if (!fs.existsSync(distPath)) {
+    throw new Error(
+      `Could not find the build directory: ${distPath}, make sure to build the client first`
+    );
+  }
+  app2.use(express.static(distPath));
+  app2.use("*", (_req, res) => {
+    res.sendFile(path2.resolve(distPath, "index.html"));
+  });
+}
+
+// server/index.ts
+var app = express2();
+app.use(express2.json());
+app.use(express2.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  const start = Date.now();
+  const path3 = req.path;
+  let capturedJsonResponse = void 0;
+  const originalResJson = res.json;
+  res.json = function(bodyJson, ...args) {
+    capturedJsonResponse = bodyJson;
+    return originalResJson.apply(res, [bodyJson, ...args]);
+  };
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    if (path3.startsWith("/api")) {
+      let logLine = `${req.method} ${path3} ${res.statusCode} in ${duration}ms`;
+      if (capturedJsonResponse) {
+        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+      }
+      if (logLine.length > 80) {
+        logLine = logLine.slice(0, 79) + "\u2026";
+      }
+      log(logLine);
+    }
+  });
+  next();
+});
+(async () => {
+  const server = await registerRoutes(app);
+  app.use((err, _req, res, _next) => {
+    const status = err.status || err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    res.status(status).json({ message });
+    throw err;
+  });
+  if (app.get("env") === "development") {
+    await setupVite(app, server);
+  } else {
+    serveStatic(app);
+  }
+  const port = parseInt(process.env.PORT || "5000", 10);
+  server.listen({
+    port,
+    host: "0.0.0.0",
+    reusePort: true
+  }, () => {
+    log(`serving on port ${port}`);
+  });
+})();

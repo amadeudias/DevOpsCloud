@@ -1,9 +1,7 @@
 {
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/((?!api/.*).*)",
-      "destination": "/index.html"
-    }
-  ]
+  "buildCommand": "vite build --outDir dist/public",
+  "outputDirectory": "dist/public",
+  "cleanUrls": true,
+  "trailingSlash": false
 }
