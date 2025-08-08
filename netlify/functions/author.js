@@ -6,7 +6,7 @@ const author = {
   location: "Goiânia - GO",
   experience: "10+ anos",
   certification: "Solutions Architect AWS",
-  imageUrl: "/profile-logo.jpeg",
+  imageUrl: "/profile-photo.jpeg",
   linkedinUrl: "https://www.linkedin.com/in/amadeu-dias-158b8a146/",
   githubUrl: "https://github.com/amadeudias",
   twitterUrl: "https://www.instagram.com/amadeudiasaws/",
