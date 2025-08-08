@@ -5,7 +5,7 @@ const author = {
   bio: "Sou especialista em Cloud Computing, com foco em AWS, DevOps, infraestrutura como código (Terraform) e modernização de aplicações. Tenho experiência prática com arquitetura de soluções, automação de ambientes, segurança na nuvem, containers (Docker, Kubernetes) e CI/CD. No blog, compartilho experiências reais de projetos, aprendizados em certificações, boas práticas e tutoriais técnicos voltados para profissionais de tecnologia que buscam evoluir na carreira em cloud e DevOps.",
   location: "Goiânia - GO",
   certification: "Solutions Architect AWS",
-  imageUrl: "/src/assets/profile-photo.jpeg",
+  imageUrl: "/profile-photo.jpeg",
   linkedinUrl: "https://www.linkedin.com/in/amadeu-dias-158b8a146/",
   githubUrl: "https://github.com/amadeudias",
   twitterUrl: "https://www.instagram.com/amadeudiasaws/",
