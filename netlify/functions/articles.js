@@ -3,28 +3,75 @@ const articles = [
   {
     id: 1,
     title: "Implementando CI/CD com Jenkins e Docker",
-    slug: "ci-cd-jenkins-docker",
-    content: "Guia completo para implementar pipelines de CI/CD usando Jenkins e Docker para automatizar deployments e melhorar a eficiência da equipe de desenvolvimento.",
-    excerpt: "Aprenda a configurar pipelines automatizados com Jenkins e Docker",
+    slug: "implementando-cicd-jenkins-docker",
+    excerpt: "Aprenda a configurar um pipeline completo de CI/CD usando Jenkins e Docker para automatizar seus deployments...",
+    content: "Conteúdo completo do artigo sobre CI/CD com Jenkins e Docker...",
     category: "DevOps",
-    tags: ["CI/CD", "Jenkins", "Docker", "Automation"],
-    readTime: 8,
+    tags: ["DevOps", "Jenkins", "Docker", "CI/CD"],
+    readTime: 5,
     featured: true,
+    imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+    codePreview: `pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'docker build -t myapp .'
+            }
+        }
+    }
+}`,
     publishedAt: "2024-01-15",
     updatedAt: "2024-01-15"
   },
   {
     id: 2,
-    title: "Kubernetes na AWS: Guia Completo do EKS",
-    slug: "kubernetes-aws-eks-guia",
-    content: "Tutorial detalhado sobre como configurar e gerenciar clusters Kubernetes na AWS usando o Amazon EKS, incluindo melhores práticas de segurança.",
-    excerpt: "Configuração completa de clusters Kubernetes na AWS",
+    title: "Kubernetes: Gerenciamento de Recursos e Autoscaling",
+    slug: "kubernetes-gerenciamento-recursos-autoscaling",
+    excerpt: "Domine as estratégias de gerenciamento de recursos no Kubernetes e implemente autoscaling eficiente...",
+    content: "Conteúdo completo do artigo sobre Kubernetes...",
     category: "Kubernetes",
-    tags: ["Kubernetes", "AWS", "EKS", "Cloud"],
-    readTime: 12,
+    tags: ["Kubernetes", "Autoscaling", "Resources"],
+    readTime: 8,
     featured: true,
+    imageUrl: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+    codePreview: `apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: php-apache
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php-apache
+  minReplicas: 1
+  maxReplicas: 10`,
     publishedAt: "2024-01-10",
     updatedAt: "2024-01-10"
+  },
+  {
+    id: 3,
+    title: "Segurança na AWS: IAM e Compliance",
+    slug: "seguranca-aws-iam-compliance",
+    excerpt: "Estratégias essenciais para implementar segurança robusta na AWS com foco em IAM policies e compliance...",
+    content: "Conteúdo completo do artigo sobre segurança AWS...",
+    category: "Security",
+    tags: ["AWS", "Security", "IAM", "Compliance"],
+    readTime: 6,
+    featured: true,
+    imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+    codePreview: `{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::mybucket/*"
+    }
+  ]
+}`,
+    publishedAt: "2024-01-05",
+    updatedAt: "2024-01-05"
   }
 ];
 
