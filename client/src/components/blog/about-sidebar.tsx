@@ -12,9 +12,8 @@ export default function AboutSidebar() {
     return (
       <Card className="shadow-xl">
         <div className="bg-navy-800 p-6 text-white">
-          <div className="w-24 h-24 rounded-full mx-auto mb-4 bg-navy-700 animate-pulse"></div>
-          <div className="h-4 bg-navy-700 rounded mx-auto mb-2 animate-pulse"></div>
-          <div className="h-3 bg-navy-700 rounded mx-auto mb-4 animate-pulse"></div>
+          <div className="h-6 bg-navy-700 rounded mx-auto mb-2 animate-pulse w-32"></div>
+          <div className="h-4 bg-navy-700 rounded mx-auto mb-4 animate-pulse w-24"></div>
         </div>
         <div className="p-6">
           <div className="space-y-2">
@@ -44,11 +43,6 @@ export default function AboutSidebar() {
   return (
     <Card className="shadow-xl overflow-hidden">
       <div className="bg-navy-800 p-6 text-white">
-        <img 
-          src={author.imageUrl} 
-          alt={author.name}
-          className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-white object-cover"
-        />
         <h3 className="text-xl font-bold text-center mb-1">{author.name}</h3>
         <p className="text-navy-200 text-center mb-4 text-sm">{author.title}</p>
         
