@@ -67,48 +67,44 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right: terminal card */}
+          {/* Right: expertise card */}
           <div className="hidden lg:block">
-            <div className="rounded-xl overflow-hidden shadow-2xl border border-white/10" style={{ background: "hsl(222, 84%, 6%)" }}>
-              {/* Terminal bar */}
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10" style={{ background: "hsl(222, 84%, 8%)" }}>
-                <div className="w-3 h-3 rounded-full bg-red-400/80"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-400/80"></div>
-                <div className="w-3 h-3 rounded-full bg-green-400/80"></div>
-                <span className="ml-2 text-xs text-gray-500 font-mono">terraform apply</span>
+            <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/10 backdrop-blur-sm" style={{ background: "rgba(255,255,255,0.06)" }}>
+              <div className="px-6 pt-6 pb-4 border-b border-white/10">
+                <p className="text-blue-300 text-xs font-semibold uppercase tracking-widest mb-1">Especialidades</p>
+                <h4 className="text-white font-bold text-lg">O que você vai encontrar aqui</h4>
               </div>
-              {/* Terminal content */}
-              <div className="p-6 font-mono text-sm leading-7">
-                <div className="text-green-400">$ terraform plan</div>
-                <div className="text-gray-400 mt-1">Refreshing Terraform state...</div>
-                <div className="text-blue-300 mt-1">Plan: 3 to add, 0 to change, 0 to destroy.</div>
-                <div className="text-gray-400 mt-3">$ kubectl get pods -n production</div>
-                <div className="text-gray-300 mt-1">NAME{"                   "}READY{"   "}STATUS</div>
-                <div className="text-green-300">api-deployment-7d{"   "}2/2{"     "}Running</div>
-                <div className="text-green-300">web-deployment-9f{"   "}3/3{"     "}Running</div>
-                <div className="text-gray-400 mt-3">$ aws s3 ls s3://prod-bucket</div>
-                <div className="text-yellow-300 mt-1">2024-01-15{"  "}configs/</div>
-                <div className="text-yellow-300">2024-01-15{"  "}artifacts/</div>
-                <div className="mt-3 flex items-center gap-1">
-                  <span className="text-green-400">$</span>
-                  <span className="w-2 h-4 bg-green-400 animate-pulse ml-1"></span>
-                </div>
-              </div>
-            </div>
 
-            {/* Floating badges */}
-            <div className="flex gap-3 mt-4 justify-end">
-              {[
-                { icon: Cloud, label: "AWS" },
-                { icon: Server, label: "Kubernetes" },
-                { icon: GitBranch, label: "CI/CD" },
-                { icon: Shield, label: "Security" },
-              ].map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-xs text-blue-200 backdrop-blur-sm">
-                  <Icon className="h-3 w-3" />
-                  {label}
+              <div className="p-6 space-y-4">
+                {[
+                  { icon: Cloud, color: "bg-orange-500/20 text-orange-300 border-orange-500/30", label: "Cloud Architecture", desc: "AWS, Azure e GCP — design de soluções escaláveis" },
+                  { icon: Server, color: "bg-blue-500/20 text-blue-300 border-blue-500/30", label: "DevOps & Automação", desc: "CI/CD, Infrastructure as Code, Docker e Kubernetes" },
+                  { icon: Shield, color: "bg-red-500/20 text-red-300 border-red-500/30", label: "Segurança em Cloud", desc: "IAM, compliance e boas práticas de segurança" },
+                  { icon: GitBranch, color: "bg-purple-500/20 text-purple-300 border-purple-500/30", label: "FinOps", desc: "Otimização de custos e governança financeira" },
+                ].map(({ icon: Icon, color, label, desc }) => (
+                  <div key={label} className="flex items-start gap-4 group">
+                    <div className={`flex-shrink-0 w-10 h-10 rounded-xl border flex items-center justify-center ${color}`}>
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-white font-semibold text-sm">{label}</p>
+                      <p className="text-blue-300 text-xs mt-0.5 leading-relaxed">{desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="px-6 pb-6">
+                <div className="rounded-xl bg-white/5 border border-white/10 p-4 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center flex-shrink-0">
+                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse block"></span>
+                  </div>
+                  <div>
+                    <p className="text-white text-sm font-medium">Conteúdo novo toda semana</p>
+                    <p className="text-blue-300 text-xs">Experiências reais de projetos e certificações</p>
+                  </div>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
