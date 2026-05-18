@@ -120,7 +120,7 @@ export class MemStorage implements IStorage {
         tags: ["DevOps", "Jenkins", "Docker", "CI/CD"],
         readTime: 5,
         featured: true,
-        imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+        imageUrl: "https://images.unsplash.com/photo-1607706189992-eae578626c86?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
         codePreview: `pipeline {
     agent any
     stages {
@@ -141,7 +141,7 @@ export class MemStorage implements IStorage {
         tags: ["Kubernetes", "Autoscaling", "Resources"],
         readTime: 8,
         featured: true,
-        imageUrl: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+        imageUrl: "https://images.unsplash.com/photo-1617042375876-a13e36732a04?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
         codePreview: `apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -163,7 +163,7 @@ spec:
         tags: ["AWS", "Security", "IAM", "Compliance"],
         readTime: 6,
         featured: true,
-        imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+        imageUrl: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
         codePreview: `{
   "Version": "2012-10-17",
   "Statement": [
@@ -184,7 +184,7 @@ spec:
         tags: ["DevOps", "Terraform", "AWS", "IaC"],
         readTime: 7,
         featured: false,
-        imageUrl: "https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
         codePreview: `resource "aws_instance" "web" {
   ami           = "ami-0c55b159cbfafe1d0"
   instance_type = "t3.micro"
@@ -203,7 +203,7 @@ spec:
         tags: ["Kubernetes", "Monitoring", "Prometheus", "Grafana"],
         readTime: 10,
         featured: false,
-        imageUrl: "https://images.unsplash.com/photo-1551808525-51a94da548ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
         codePreview: `apiVersion: v1
 kind: ServiceMonitor
 metadata:
@@ -222,7 +222,7 @@ spec:
         tags: ["FinOps", "AWS", "Cost Optimization"],
         readTime: 12,
         featured: false,
-        imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
         codePreview: `# AWS CLI para análise de custos
 aws ce get-cost-and-usage \\
   --time-period Start=2024-01-01,End=2024-12-31 \\

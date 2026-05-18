@@ -10,7 +10,7 @@ const articles = [
     tags: ["DevOps", "Jenkins", "Docker", "CI/CD"],
     readTime: 5,
     featured: true,
-    imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+    imageUrl: "https://images.unsplash.com/photo-1607706189992-eae578626c86?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
     codePreview: `pipeline {
     agent any
     stages {
@@ -34,7 +34,7 @@ const articles = [
     tags: ["Kubernetes", "Autoscaling", "Resources"],
     readTime: 8,
     featured: true,
-    imageUrl: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+    imageUrl: "https://images.unsplash.com/photo-1617042375876-a13e36732a04?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
     codePreview: `apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -59,7 +59,7 @@ spec:
     tags: ["AWS", "Security", "IAM", "Compliance"],
     readTime: 6,
     featured: true,
-    imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+    imageUrl: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
     codePreview: `{
   "Version": "2012-10-17",
   "Statement": [
