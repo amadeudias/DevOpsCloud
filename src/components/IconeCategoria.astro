@@ -1,0 +1,30 @@
+---
+import Activity from '@lucide/astro/icons/activity';
+import Cloud from '@lucide/astro/icons/cloud';
+import Container from '@lucide/astro/icons/container';
+import FileCode from '@lucide/astro/icons/file-code';
+import PiggyBank from '@lucide/astro/icons/piggy-bank';
+import Shield from '@lucide/astro/icons/shield';
+import Workflow from '@lucide/astro/icons/workflow';
+import type { CategoriaSlug } from '../lib/categorias';
+
+const ICONES = {
+	aws: Cloud,
+	iac: FileCode,
+	kubernetes: Container,
+	devops: Workflow,
+	observabilidade: Activity,
+	seguranca: Shield,
+	finops: PiggyBank,
+} satisfies Record<CategoriaSlug, unknown>;
+
+interface Props {
+	slug: CategoriaSlug;
+	class?: string;
+}
+
+const { slug, class: classe } = Astro.props;
+const Icone = ICONES[slug];
+---
+
+<Icone class={classe} />
