@@ -1,0 +1,79 @@
+---
+import ArrowLeft from '@lucide/astro/icons/arrow-left';
+import { Image } from 'astro:assets';
+import CategoriaBadge from '../components/CategoriaBadge.astro';
+import { AUTOR } from '../consts';
+import { type Post, formatarData, tempoDeLeitura } from '../lib/posts';
+import Base from './Base.astro';
+
+interface Props {
+	post: Post;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, category, tags, cover, coverAlt } = post.data;
+---
+
+<Base title={title} description={description} image={`/og/${post.id}.png`} type="article" publishedTime={pubDate}>
+	<article class="container-site max-w-3xl pt-12 sm:pt-16">
+		<a href="/blog/" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-brand">
+			<ArrowLeft class="size-4" /> Todos os artigos
+		</a>
+
+		<header class="mt-8 border-b border-line pb-8">
+			<div class="flex flex-wrap items-center gap-3 text-sm text-muted">
+				<CategoriaBadge slug={category} />
+				<time datetime={pubDate.toISOString()}>{formatarData(pubDate)}</time>
+				<span aria-hidden="true">·</span>
+				<span>{tempoDeLeitura(post)} min de leitura</span>
+			</div>
+			<h1 class="mt-5 text-3xl leading-tight font-bold tracking-tight text-balance sm:text-4xl">{title}</h1>
+			<p class="mt-4 text-lg leading-relaxed text-muted">{description}</p>
+			{
+				updatedDate && (
+					<p class="mt-4 text-sm text-muted">
+						Atualizado em <time datetime={updatedDate.toISOString()}>{formatarData(updatedDate)}</time>
+					</p>
+				)
+			}
+		</header>
+
+		{
+			cover && (
+				<Image
+					src={cover}
+					alt={coverAlt ?? ''}
+					width={1200}
+					class="mt-8 aspect-[2/1] w-full rounded-2xl border border-line object-cover"
+				/>
+			)
+		}
+
+		<div class="prose prose-lg mt-10 max-w-none dark:prose-invert prose-headings:tracking-tight prose-a:underline-offset-4">
+			<slot />
+		</div>
+
+		{
+			tags.length > 0 && (
+				<ul class="mt-12 flex flex-wrap gap-2" aria-label="Tags">
+					{tags.map((tag) => (
+						<li class="rounded-md bg-bg-soft px-2.5 py-1 font-mono text-xs text-muted">#{tag}</li>
+					))}
+				</ul>
+			)
+		}
+
+		<aside class="mt-12 flex items-center gap-4 rounded-2xl border border-line bg-bg-soft p-6">
+			<span
+				class="grid size-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand to-sky-500 font-bold text-white"
+				>AD</span
+			>
+			<div class="text-sm">
+				<p class="font-semibold">{AUTOR.nome}</p>
+				<p class="text-muted">
+					{AUTOR.cargo} · {AUTOR.certificacao}. <a href="/sobre/" class="text-brand hover:underline">Mais sobre mim</a>
+				</p>
+			</div>
+		</aside>
+	</article>
+</Base>

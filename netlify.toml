@@ -1,19 +1,56 @@
 [build]
-  command = "npm install && npm run build"
-  publish = "dist/public"
+  command = "npm run build"
+  publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "24"
+
+# URLs da versão antiga do blog (app React do Replit)
+[[redirects]]
+  from = "/article/*"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
+  from = "/category/security"
+  to = "/categorias/seguranca/"
+  status = 301
+
+[[redirects]]
+  from = "/category/cloud"
+  to = "/categorias/"
+  status = 301
+
+[[redirects]]
+  from = "/category/:slug"
+  to = "/categorias/:slug/"
+  status = 301
+
+[[redirects]]
+  from = "/about"
+  to = "/sobre/"
+  status = 301
+
+[[redirects]]
+  from = "/admin"
+  to = "/"
+  status = 301
 
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+  to = "/"
+  status = 301
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
 
-[context.production]
-  command = "npm install && npm run build"
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

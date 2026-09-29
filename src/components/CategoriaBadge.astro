@@ -1,0 +1,20 @@
+---
+import { CATEGORIAS, type CategoriaSlug } from '../lib/categorias';
+
+interface Props {
+	slug: CategoriaSlug;
+	link?: boolean;
+}
+
+const { slug, link = true } = Astro.props;
+const { nome, cor } = CATEGORIAS[slug];
+const Tag = link ? 'a' : 'span';
+---
+
+<Tag
+	href={link ? `/categorias/${slug}/` : undefined}
+	class="relative z-10 inline-flex items-center gap-1.5 rounded-full border border-line px-2.5 py-0.5 text-xs font-medium text-muted transition-colors hover:text-fg"
+>
+	<span class="size-1.5 rounded-full" style={`background:${cor}`}></span>
+	{nome}
+</Tag>

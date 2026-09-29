@@ -1,0 +1,80 @@
+---
+import Award from '@lucide/astro/icons/award';
+import Briefcase from '@lucide/astro/icons/briefcase';
+import Building from '@lucide/astro/icons/building';
+import MapPin from '@lucide/astro/icons/map-pin';
+import IconeMarca from '../components/IconeMarca.astro';
+import { AUTOR } from '../consts';
+import Base from '../layouts/Base.astro';
+
+const FATOS = [
+	{ icone: Briefcase, rotulo: 'Experiência', valor: AUTOR.experiencia },
+	{ icone: Award, rotulo: 'Certificação', valor: AUTOR.certificacao },
+	{ icone: MapPin, rotulo: 'Local', valor: AUTOR.local },
+	{ icone: Building, rotulo: 'Empresa', valor: AUTOR.empresa.nome, href: AUTOR.empresa.url },
+];
+
+const REDES = [
+	{ href: AUTOR.redes.linkedin, nome: 'linkedin', rotulo: 'LinkedIn' },
+	{ href: AUTOR.redes.github, nome: 'github', rotulo: 'GitHub' },
+	{ href: AUTOR.redes.instagram, nome: 'instagram', rotulo: 'Instagram' },
+] as const;
+---
+
+<Base title="Sobre" description={`${AUTOR.nome}, ${AUTOR.cargo}. ${AUTOR.bio}`}>
+	<section class="container-site max-w-4xl pt-16">
+		<div class="flex flex-col gap-8 sm:flex-row sm:items-center">
+			<span
+				class="grid size-28 shrink-0 place-items-center rounded-3xl bg-gradient-to-br from-brand to-sky-500 text-4xl font-bold text-white shadow-lg shadow-brand/20"
+				>AD</span
+			>
+			<div>
+				<h1 class="text-4xl font-bold tracking-tight">{AUTOR.nome}</h1>
+				<p class="mt-2 text-lg text-muted">{AUTOR.cargo}</p>
+				<div class="mt-4 flex flex-wrap gap-2">
+					{
+						REDES.map(({ href, nome, rotulo }) => (
+							<a
+								href={href}
+								target="_blank"
+								rel="noopener"
+								class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-1.5 text-sm font-medium hover:border-brand/40 hover:text-brand"
+							>
+								<IconeMarca nome={nome} class="size-4" />
+								{rotulo}
+							</a>
+						))
+					}
+				</div>
+			</div>
+		</div>
+
+		<p class="mt-12 text-lg leading-relaxed">{AUTOR.bio}</p>
+		<p class="mt-4 text-lg leading-relaxed text-muted">
+			No blog, compartilho experiências reais de projetos, aprendizados em certificações, boas práticas e tutoriais técnicos
+			para profissionais de tecnologia que querem evoluir na carreira em cloud e DevOps.
+		</p>
+
+		<dl class="mt-12 grid gap-4 sm:grid-cols-2">
+			{
+				FATOS.map(({ icone: Icone, rotulo, valor, href }) => (
+					<div class="flex items-center gap-4 rounded-2xl border border-line p-5">
+						<Icone class="size-5 text-brand" />
+						<div>
+							<dt class="text-xs text-muted">{rotulo}</dt>
+							<dd class="font-semibold">
+								{href ? (
+									<a href={href} class="hover:text-brand">
+										{valor}
+									</a>
+								) : (
+									valor
+								)}
+							</dd>
+						</div>
+					</div>
+				))
+			}
+		</dl>
+	</section>
+</Base>

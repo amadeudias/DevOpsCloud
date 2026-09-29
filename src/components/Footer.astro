@@ -1,0 +1,39 @@
+---
+import Rss from '@lucide/astro/icons/rss';
+import { AUTOR } from '../consts';
+import IconeMarca from './IconeMarca.astro';
+
+const ano = new Date().getFullYear();
+const REDES = [
+	{ href: AUTOR.redes.linkedin, nome: 'linkedin', rotulo: 'LinkedIn' },
+	{ href: AUTOR.redes.github, nome: 'github', rotulo: 'GitHub' },
+	{ href: AUTOR.redes.instagram, nome: 'instagram', rotulo: 'Instagram' },
+] as const;
+---
+
+<footer class="mt-24 border-t border-line">
+	<div class="container-site flex flex-col gap-6 py-10 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+		<p>
+			© {ano} {AUTOR.nome} · Fundador da{' '}
+			<a href={AUTOR.empresa.url} class="font-medium text-fg hover:text-brand">{AUTOR.empresa.nome}</a>
+		</p>
+		<div class="flex items-center gap-1">
+			{
+				REDES.map(({ href, nome, rotulo }) => (
+					<a
+						href={href}
+						target="_blank"
+						rel="noopener"
+						aria-label={rotulo}
+						class="grid size-9 place-items-center rounded-md hover:bg-bg-soft hover:text-fg"
+					>
+						<IconeMarca nome={nome} />
+					</a>
+				))
+			}
+			<a href="/rss.xml" aria-label="RSS" class="grid size-9 place-items-center rounded-md hover:bg-bg-soft hover:text-fg">
+				<Rss class="size-5" />
+			</a>
+		</div>
+	</div>
+</footer>

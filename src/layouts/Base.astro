@@ -1,0 +1,27 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import type { ComponentProps } from 'astro/types';
+
+type Props = ComponentProps<typeof BaseHead>;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<BaseHead {...Astro.props} />
+	</head>
+	<body class="flex min-h-dvh flex-col">
+		<a
+			href="#conteudo"
+			class="sr-only rounded-md bg-brand px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50"
+			>Pular para o conteúdo</a
+		>
+		<Header />
+		<main id="conteudo" class="flex-1">
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>

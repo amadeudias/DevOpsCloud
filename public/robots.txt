@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://amadeudias.cloud/sitemap-index.xml

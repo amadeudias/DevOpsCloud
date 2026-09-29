@@ -1,0 +1,152 @@
+---
+import Activity from '@lucide/astro/icons/activity';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import BellRing from '@lucide/astro/icons/bell-ring';
+import Cloud from '@lucide/astro/icons/cloud';
+import Container from '@lucide/astro/icons/container';
+import FileCode from '@lucide/astro/icons/file-code';
+import Gauge from '@lucide/astro/icons/gauge';
+import MapPin from '@lucide/astro/icons/map-pin';
+import Shield from '@lucide/astro/icons/shield';
+import Ticket from '@lucide/astro/icons/ticket';
+import Workflow from '@lucide/astro/icons/workflow';
+import PostCard from '../components/PostCard.astro';
+import { AUTOR, SITE } from '../consts';
+import Base from '../layouts/Base.astro';
+import { getPosts } from '../lib/posts';
+
+const recentes = (await getPosts()).slice(0, 3);
+
+const AREAS = [
+	{ icone: Cloud, titulo: 'AWS', texto: 'Arquitetura de soluções' },
+	{ icone: FileCode, titulo: 'Terraform', texto: 'Infraestrutura como código' },
+	{ icone: Container, titulo: 'Kubernetes', texto: 'Containers em produção' },
+	{ icone: Workflow, titulo: 'CI/CD', texto: 'Entrega contínua' },
+	{ icone: Activity, titulo: 'Observabilidade', texto: 'Métricas, logs e alertas' },
+	{ icone: Shield, titulo: 'Segurança', texto: 'IAM e compliance' },
+];
+
+const FLUXO = [
+	{ icone: Gauge, texto: 'Coleta no navegador' },
+	{ icone: Activity, texto: 'Grafana Cloud' },
+	{ icone: BellRing, texto: 'Alerta no Teams' },
+	{ icone: Ticket, texto: 'Chamado aberto' },
+];
+---
+
+<Base title={SITE.title} description={SITE.description}>
+	<section class="relative overflow-hidden">
+		<div class="grade-fundo pointer-events-none absolute inset-0 -z-10"></div>
+		<div
+			class="pointer-events-none absolute -top-40 left-1/2 -z-10 h-80 w-[48rem] -translate-x-1/2 rounded-full bg-brand/15 blur-3xl"
+		>
+		</div>
+
+		<div class="container-site grid items-center gap-12 py-20 sm:py-28 lg:grid-cols-[1.15fr_1fr]">
+			<div>
+				<p
+					class="inline-flex items-center gap-2 rounded-full border border-line bg-bg/70 px-3 py-1 text-xs font-medium text-muted backdrop-blur"
+				>
+					<span class="size-1.5 animate-pulse rounded-full bg-emerald-500"></span>
+					{AUTOR.cargo} · {AUTOR.certificacao}
+				</p>
+				<h1 class="mt-6 text-4xl leading-[1.05] font-bold tracking-tight text-balance sm:text-6xl">
+					Nuvem que funciona, <span class="bg-gradient-to-r from-brand to-sky-500 bg-clip-text text-transparent"
+						>do código ao alerta.</span
+					>
+				</h1>
+				<p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+					Sou {AUTOR.nome}, arquiteto de soluções com {AUTOR.experiencia} em infraestrutura. Aqui compartilho projetos reais,
+					aprendizados e tutoriais sobre AWS, DevOps, Kubernetes e infraestrutura como código.
+				</p>
+				<div class="mt-8 flex flex-wrap gap-3">
+					<a
+						href="/blog/"
+						class="inline-flex items-center gap-2 rounded-lg bg-brand-strong px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand/30 transition hover:brightness-110"
+					>
+						Ler artigos <ArrowRight class="size-4" />
+					</a>
+					<a
+						href="/observabilidade/"
+						class="inline-flex items-center gap-2 rounded-lg border border-line bg-bg px-5 py-2.5 text-sm font-semibold transition hover:border-brand/50 hover:text-brand"
+					>
+						Projeto de observabilidade
+					</a>
+				</div>
+				<p class="mt-8 inline-flex items-center gap-1.5 text-sm text-muted">
+					<MapPin class="size-4" />
+					{AUTOR.local}
+				</p>
+			</div>
+
+			<div>
+				<h2 class="mb-4 text-xs font-semibold tracking-widest text-muted uppercase">Áreas de atuação</h2>
+				<ul class="grid grid-cols-2 gap-3">
+					{
+						AREAS.map(({ icone: Icone, titulo, texto }) => (
+							<li class="rounded-xl border border-line bg-bg/80 p-4 backdrop-blur transition hover:border-brand/40">
+								<Icone class="size-5 text-brand" />
+								<p class="mt-3 font-semibold">{titulo}</p>
+								<p class="mt-0.5 text-sm text-muted">{texto}</p>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<section class="container-site">
+		<a
+			href="/observabilidade/"
+			class="group relative block overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-brand-soft to-bg p-8 transition hover:border-brand/40 sm:p-10"
+		>
+			<p class="text-xs font-semibold tracking-widest text-brand uppercase">Projeto em destaque</p>
+			<h2 class="mt-3 max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">
+				Este blog é monitorado como um sistema de produção
+			</h2>
+			<p class="mt-3 max-w-2xl leading-relaxed text-muted">
+				Métricas reais de quem acessa, verificações de disponibilidade e regras de alerta que avisam no Microsoft Teams e
+				abrem chamado automaticamente. Tudo versionado como código.
+			</p>
+			<ol class="mt-8 flex flex-wrap items-center gap-2 text-sm">
+				{
+					FLUXO.map(({ icone: Icone, texto }, i) => (
+						<li class="flex items-center gap-2">
+							{i > 0 && <ArrowRight class="size-4 text-muted" />}
+							<span class="inline-flex items-center gap-2 rounded-lg border border-line bg-bg px-3 py-1.5 font-medium">
+								<Icone class="size-4 text-brand" />
+								{texto}
+							</span>
+						</li>
+					))
+				}
+			</ol>
+			<span class="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-brand">
+				Ver arquitetura <ArrowRight class="size-4 transition group-hover:translate-x-0.5" />
+			</span>
+		</a>
+	</section>
+
+	<section class="container-site mt-24">
+		<div class="flex items-end justify-between gap-4">
+			<h2 class="text-2xl font-bold tracking-tight">Artigos recentes</h2>
+			<a href="/blog/" class="inline-flex items-center gap-1 text-sm font-medium text-brand hover:underline">
+				Ver todos <ArrowRight class="size-4" />
+			</a>
+		</div>
+		{
+			recentes.length > 0 ? (
+				<div class="mt-8 grid gap-5 md:grid-cols-3">
+					{recentes.map((post) => (
+						<PostCard post={post} />
+					))}
+				</div>
+			) : (
+				<p class="mt-8 rounded-2xl border border-dashed border-line p-10 text-center text-muted">
+					Os primeiros artigos estão a caminho.
+				</p>
+			)
+		}
+	</section>
+</Base>
