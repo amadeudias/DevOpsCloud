@@ -1,6 +1,7 @@
 ---
 import ArrowLeft from '@lucide/astro/icons/arrow-left';
 import { Image } from 'astro:assets';
+import Avatar from '../components/Avatar.astro';
 import CategoriaBadge from '../components/CategoriaBadge.astro';
 import { AUTOR } from '../consts';
 import { type Post, formatarData, tempoDeLeitura } from '../lib/posts';
@@ -64,10 +65,7 @@ const { title, description, pubDate, updatedDate, category, tags, cover, coverAl
 		}
 
 		<aside class="mt-12 flex items-center gap-4 rounded-2xl border border-line bg-bg-soft p-6">
-			<span
-				class="grid size-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand to-sky-500 font-bold text-white"
-				>AD</span
-			>
+			<Avatar tamanho={48} class="rounded-xl" />
 			<div class="text-sm">
 				<p class="font-semibold">{AUTOR.nome}</p>
 				<p class="text-muted">

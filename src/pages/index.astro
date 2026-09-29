@@ -1,6 +1,7 @@
 ---
 import Activity from '@lucide/astro/icons/activity';
 import ArrowRight from '@lucide/astro/icons/arrow-right';
+import Award from '@lucide/astro/icons/award';
 import BellRing from '@lucide/astro/icons/bell-ring';
 import Cloud from '@lucide/astro/icons/cloud';
 import Container from '@lucide/astro/icons/container';
@@ -11,6 +12,7 @@ import ScrollText from '@lucide/astro/icons/scroll-text';
 import Shield from '@lucide/astro/icons/shield';
 import Ticket from '@lucide/astro/icons/ticket';
 import Workflow from '@lucide/astro/icons/workflow';
+import IconeMarca from '../components/IconeMarca.astro';
 import PostCard from '../components/PostCard.astro';
 import { AUTOR, SITE } from '../consts';
 import Base from '../layouts/Base.astro';
@@ -26,6 +28,12 @@ const AREAS = [
 	{ icone: Activity, titulo: 'Observabilidade', texto: 'Monitoramento e alertas' },
 	{ icone: Shield, titulo: 'Segurança', texto: 'IAM e compliance' },
 ];
+
+const REDES = [
+	{ href: AUTOR.redes.linkedin, nome: 'linkedin', rotulo: 'LinkedIn' },
+	{ href: AUTOR.redes.github, nome: 'github', rotulo: 'GitHub' },
+	{ href: AUTOR.redes.instagram, nome: 'instagram', rotulo: 'Instagram' },
+] as const;
 
 const FLUXO = [
 	{ icone: Activity, texto: 'Prometheus' },
@@ -75,10 +83,27 @@ const FLUXO = [
 						Sobre mim
 					</a>
 				</div>
-				<p class="mt-8 inline-flex items-center gap-1.5 text-sm text-muted">
-					<MapPin class="size-4" />
-					{AUTOR.local}
-				</p>
+				<div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-muted">
+					<span class="inline-flex items-center gap-1.5">
+						<MapPin class="size-4" />
+						{AUTOR.local}
+					</span>
+					<span class="flex items-center gap-1">
+						{
+							REDES.map(({ href, nome, rotulo }) => (
+								<a
+									href={href}
+									target="_blank"
+									rel="noopener"
+									aria-label={rotulo}
+									class="grid size-9 place-items-center rounded-md transition-colors hover:bg-bg-soft hover:text-brand"
+								>
+									<IconeMarca nome={nome} />
+								</a>
+							))
+						}
+					</span>
+				</div>
 			</div>
 
 			<div>
@@ -131,6 +156,28 @@ const FLUXO = [
 				Vamos conversar no LinkedIn <ArrowRight class="size-4 transition group-hover:translate-x-0.5" />
 			</a>
 		</div>
+	</section>
+
+	<section class="container-site mt-24">
+		<div class="flex items-end justify-between gap-4">
+			<h2 class="text-2xl font-bold tracking-tight">Certificações</h2>
+			<a href="/sobre/" class="inline-flex items-center gap-1 text-sm font-medium text-brand hover:underline">
+				Mais sobre mim <ArrowRight class="size-4" />
+			</a>
+		</div>
+		<ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+			{
+				AUTOR.certificacoes.map(({ nome, emissor }) => (
+					<li class="flex items-start gap-3 rounded-2xl border border-line p-5">
+						<Award class="mt-0.5 size-5 shrink-0 text-brand" />
+						<div>
+							<p class="leading-snug font-semibold">{nome}</p>
+							<p class="mt-1 text-sm text-muted">{emissor}</p>
+						</div>
+					</li>
+				))
+			}
+		</ul>
 	</section>
 
 	<section class="container-site mt-24">

@@ -3,13 +3,13 @@ import Award from '@lucide/astro/icons/award';
 import Briefcase from '@lucide/astro/icons/briefcase';
 import Building from '@lucide/astro/icons/building';
 import MapPin from '@lucide/astro/icons/map-pin';
+import Avatar from '../components/Avatar.astro';
 import IconeMarca from '../components/IconeMarca.astro';
 import { AUTOR } from '../consts';
 import Base from '../layouts/Base.astro';
 
 const FATOS = [
 	{ icone: Briefcase, rotulo: 'Experiência', valor: AUTOR.experiencia },
-	{ icone: Award, rotulo: 'Certificação', valor: AUTOR.certificacao },
 	{ icone: MapPin, rotulo: 'Local', valor: AUTOR.local },
 	{ icone: Building, rotulo: 'Empresa', valor: AUTOR.empresa.nome, href: AUTOR.empresa.url },
 ];
@@ -24,10 +24,7 @@ const REDES = [
 <Base title="Sobre" description={`${AUTOR.nome}, ${AUTOR.cargo}. ${AUTOR.bio}`}>
 	<section class="container-site max-w-4xl pt-16">
 		<div class="flex flex-col gap-8 sm:flex-row sm:items-center">
-			<span
-				class="grid size-28 shrink-0 place-items-center rounded-3xl bg-gradient-to-br from-brand to-sky-500 text-4xl font-bold text-white shadow-lg shadow-brand/20"
-				>AD</span
-			>
+			<Avatar tamanho={112} class="rounded-3xl shadow-lg shadow-brand/20" />
 			<div>
 				<h1 class="text-4xl font-bold tracking-tight">{AUTOR.nome}</h1>
 				<p class="mt-2 text-lg text-muted">{AUTOR.cargo}</p>
@@ -59,7 +56,7 @@ const REDES = [
 			a ferramentas de chamados como Zendesk, Jira e ServiceNow.
 		</p>
 
-		<dl class="mt-12 grid gap-4 sm:grid-cols-2">
+		<dl class="mt-12 grid gap-4 sm:grid-cols-3">
 			{
 				FATOS.map(({ icone: Icone, rotulo, valor, href }) => (
 					<div class="flex items-center gap-4 rounded-2xl border border-line p-5">
@@ -80,5 +77,31 @@ const REDES = [
 				))
 			}
 		</dl>
+
+		<h2 class="mt-16 text-2xl font-bold tracking-tight">Certificações</h2>
+		<ul class="mt-6 grid gap-4 sm:grid-cols-2">
+			{
+				AUTOR.certificacoes.map(({ nome, emissor }) => (
+					<li class="flex items-start gap-4 rounded-2xl border border-line p-5">
+						<span class="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand">
+							<Award class="size-5" />
+						</span>
+						<div>
+							<p class="font-semibold">{nome}</p>
+							<p class="mt-0.5 text-sm text-muted">{emissor}</p>
+						</div>
+					</li>
+				))
+			}
+		</ul>
+
+		<h2 class="mt-16 text-2xl font-bold tracking-tight">Tecnologias</h2>
+		<ul class="mt-6 flex flex-wrap gap-2">
+			{
+				AUTOR.tecnologias.map((tecnologia) => (
+					<li class="rounded-lg border border-line bg-bg-soft px-3 py-1.5 font-mono text-sm">{tecnologia}</li>
+				))
+			}
+		</ul>
 	</section>
 </Base>
