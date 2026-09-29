@@ -1,6 +1,6 @@
 ---
 title: 'Um novo começo: reconstruindo o blog como um projeto de infraestrutura'
-description: 'Por que troquei um app React gerado automaticamente por um site estático em Astro, com pipeline de CI, deploy no Netlify e observabilidade como próximo passo.'
+description: 'Por que troquei um app React gerado automaticamente por um site estático em Astro, com pipeline de CI e deploy automático no Netlify.'
 pubDate: 2026-09-29
 category: devops
 tags: ['astro', 'netlify', 'github-actions', 'ci-cd']
@@ -26,8 +26,6 @@ Decidi reconstruir do zero e tratar o blog como trato qualquer sistema em produ�
   run: npm run build
 ```
 
-## Próximo passo: observabilidade
+## O que vem por aí
 
-Um blog estático é simples, e por isso é um bom laboratório. O próximo projeto é instrumentar este site de ponta a ponta: dados reais de quem acessa, verificações sintéticas de disponibilidade, alertas no Microsoft Teams e abertura automática de chamados, tudo configurado como código.
-
-Acompanhe a evolução na página de [observabilidade](/observabilidade/).
+Com a base pronta, o foco agora é o conteúdo: projetos reais e aprendizados sobre AWS, Terraform, Kubernetes, CI/CD e observabilidade.
