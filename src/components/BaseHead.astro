@@ -23,14 +23,14 @@ const imagem = new URL(image, Astro.site);
 <meta name="theme-color" content="#0a101d" />
 
 <script is:inline>
-	// Aplica o tema antes da pintura para evitar o flash de tema errado
+	// Aplica o tema antes da pintura para evitar o flash de tema errado; escuro é o padrão
+	let escuro = true;
 	try {
-		const salvo = localStorage.getItem('tema');
-		const escuro = salvo ? salvo === 'escuro' : matchMedia('(prefers-color-scheme: dark)').matches;
-		document.documentElement.classList.toggle('dark', escuro);
+		escuro = localStorage.getItem('tema') !== 'claro';
 	} catch {
-		document.documentElement.classList.toggle('dark', matchMedia('(prefers-color-scheme: dark)').matches);
+		// Sem storage (aba anônima, bloqueio): fica o padrão
 	}
+	document.documentElement.classList.toggle('dark', escuro);
 </script>
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

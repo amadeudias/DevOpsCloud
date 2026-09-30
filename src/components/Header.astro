@@ -2,6 +2,7 @@
 import Menu from '@lucide/astro/icons/menu';
 import Moon from '@lucide/astro/icons/moon';
 import Sun from '@lucide/astro/icons/sun';
+import Avatar from './Avatar.astro';
 
 const LINKS = [
 	{ href: '/blog/', texto: 'Artigos' },
@@ -16,10 +17,7 @@ const ativo = (href: string) => atual.startsWith(href.replace(/\/$/, ''));
 <header class="sticky top-0 z-40 border-b border-line/70 bg-bg/80 backdrop-blur-md">
 	<div class="container-site flex h-16 items-center justify-between gap-4">
 		<a href="/" class="group flex items-center gap-2.5 font-semibold tracking-tight">
-			<span
-				class="grid size-8 place-items-center rounded-lg bg-gradient-to-br from-brand to-sky-500 text-sm font-bold text-white shadow-sm shadow-brand/30"
-				>AD</span
-			>
+			<Avatar tamanho={32} class="rounded-full ring-1 ring-line" />
 			<span class="group-hover:text-brand">Amadeu Dias</span>
 		</a>
 
