@@ -50,7 +50,7 @@ const { title, description, pubDate, updatedDate, category, tags, cover, coverAl
 			)
 		}
 
-		<div class="prose prose-lg mt-10 max-w-none dark:prose-invert prose-headings:tracking-tight prose-a:underline-offset-4">
+		<div class="prose prose-lg mt-10 max-w-none prose-headings:tracking-tight prose-a:underline-offset-4">
 			<slot />
 		</div>
 
@@ -64,7 +64,7 @@ const { title, description, pubDate, updatedDate, category, tags, cover, coverAl
 			)
 		}
 
-		<aside class="mt-12 flex items-center gap-4 rounded-2xl border border-line bg-bg-soft p-6">
+		<aside class="mt-12 flex items-center gap-4 rounded-2xl border border-line bg-surface p-6">
 			<Avatar tamanho={48} class="rounded-full" />
 			<div class="text-sm">
 				<p class="font-semibold">{AUTOR.nome}</p>

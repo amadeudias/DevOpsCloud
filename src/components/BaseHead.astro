@@ -20,18 +20,7 @@ const imagem = new URL(image, Astro.site);
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="generator" content={Astro.generator} />
-<meta name="theme-color" content="#0a101d" />
-
-<script is:inline>
-	// Aplica o tema antes da pintura para evitar o flash de tema errado; escuro é o padrão
-	let escuro = true;
-	try {
-		escuro = localStorage.getItem('tema') !== 'claro';
-	} catch {
-		// Sem storage (aba anônima, bloqueio): fica o padrão
-	}
-	document.documentElement.classList.toggle('dark', escuro);
-</script>
+<meta name="theme-color" content="#eef5ff" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />

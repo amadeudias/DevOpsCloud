@@ -11,9 +11,7 @@ export default defineConfig({
 	integrations: [
 		// Precisa vir antes do mdx para estilizar blocos de código em .mdx
 		expressiveCode({
-			themes: ['github-dark-default', 'github-light-default'],
-			themeCssSelector: (theme) => (theme.type === 'dark' ? '.dark' : ':root:not(.dark)'),
-			useDarkModeMediaQuery: false,
+			themes: ['github-dark-default'],
 			styleOverrides: {
 				borderRadius: '0.75rem',
 				codeFontFamily: "'JetBrains Mono Variable', ui-monospace, monospace",

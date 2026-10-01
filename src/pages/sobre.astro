@@ -59,7 +59,7 @@ const REDES = [
 		<dl class="mt-12 grid gap-4 sm:grid-cols-3">
 			{
 				FATOS.map(({ icone: Icone, rotulo, valor, href }) => (
-					<div class="flex items-center gap-4 rounded-2xl border border-line p-5">
+					<div class="flex items-center gap-4 rounded-2xl border border-line bg-surface p-5">
 						<Icone class="size-5 text-brand" />
 						<div>
 							<dt class="text-xs text-muted">{rotulo}</dt>
@@ -82,7 +82,7 @@ const REDES = [
 		<ul class="mt-6 grid gap-4 sm:grid-cols-2">
 			{
 				AUTOR.certificacoes.map(({ nome, emissor }) => (
-					<li class="flex items-start gap-4 rounded-2xl border border-line p-5">
+					<li class="flex items-start gap-4 rounded-2xl border border-line bg-surface p-5">
 						<span class="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand">
 							<Award class="size-5" />
 						</span>

@@ -3,36 +3,25 @@
 @import '@fontsource-variable/jetbrains-mono';
 @plugin '@tailwindcss/typography';
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 /* Identidade compartilhada com o site da CloudIaC */
 :root {
-	--bg: #ffffff;
-	--bg-soft: #f5f8fc;
+	/* Fundo azul bem claro; cartões em branco por cima */
+	--bg: #eef5ff;
+	--bg-soft: #e1ecfb;
+	--surface: #ffffff;
 	--fg: #0f172a;
-	--muted: #53627a;
-	--line: #e2e8f0;
+	--muted: #4b5b75;
+	--line: #d3e1f4;
 	--brand: hsl(214 100% 45%);
-	--brand-soft: hsl(214 100% 96%);
+	--brand-soft: hsl(214 100% 94%);
 	--accent: hsl(43 96% 50%);
-	/* Preenchimento de botões: fixo nos dois temas para manter contraste com texto branco */
 	--brand-strong: hsl(214 100% 45%);
-}
-
-.dark {
-	--bg: #0a101d;
-	--bg-soft: #101a2c;
-	--fg: #e6edf7;
-	--muted: #94a3b8;
-	--line: #1d2940;
-	--brand: hsl(214 100% 64%);
-	--brand-soft: hsl(214 60% 15%);
-	--accent: hsl(43 96% 58%);
 }
 
 @theme inline {
 	--color-bg: var(--bg);
 	--color-bg-soft: var(--bg-soft);
+	--color-surface: var(--surface);
 	--color-fg: var(--fg);
 	--color-muted: var(--muted);
 	--color-line: var(--line);
@@ -46,11 +35,7 @@
 
 @layer base {
 	html {
-		color-scheme: light;
 		scroll-behavior: smooth;
-	}
-	html.dark {
-		color-scheme: dark;
 	}
 	body {
 		@apply bg-bg font-sans text-fg antialiased;
