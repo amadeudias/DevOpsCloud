@@ -1,0 +1,64 @@
+---
+import Menu from '@lucide/astro/icons/menu';
+import Avatar from './Avatar.astro';
+
+const LINKS = [
+	{ href: '/blog/', texto: 'Artigos' },
+	{ href: '/categorias/', texto: 'Temas' },
+	{ href: '/sobre/', texto: 'Sobre' },
+];
+
+const atual = Astro.url.pathname;
+const ativo = (href: string) => atual.startsWith(href.replace(/\/$/, ''));
+---
+
+<header class="sticky top-0 z-40 border-b border-line/70 bg-bg/80 backdrop-blur-md">
+	<div class="container-site flex h-16 items-center justify-between gap-4">
+		<a href="/" class="group flex items-center gap-2.5 font-semibold tracking-tight">
+			<Avatar tamanho={32} class="rounded-full ring-1 ring-line" />
+			<span class="group-hover:text-brand">Amadeu Dias</span>
+		</a>
+
+		<div class="flex items-center gap-1">
+			<nav aria-label="Principal" class="hidden items-center gap-1 sm:flex">
+				{
+					LINKS.map(({ href, texto }) => (
+						<a
+							href={href}
+							aria-current={ativo(href) ? 'page' : undefined}
+							class="rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:text-fg aria-[current=page]:text-brand"
+						>
+							{texto}
+						</a>
+					))
+				}
+			</nav>
+
+			<details class="relative sm:hidden">
+				<summary
+					class="grid size-9 cursor-pointer list-none place-items-center rounded-md text-muted hover:bg-bg-soft hover:text-fg [&::-webkit-details-marker]:hidden"
+					aria-label="Abrir menu"
+				>
+					<Menu class="size-5" />
+				</summary>
+				<nav
+					aria-label="Menu móvel"
+					class="absolute right-0 mt-2 flex w-48 flex-col rounded-lg border border-line bg-surface p-1.5 shadow-lg"
+				>
+					{
+						LINKS.map(({ href, texto }) => (
+							<a
+								href={href}
+								aria-current={ativo(href) ? 'page' : undefined}
+								class="rounded-md px-3 py-2 text-sm font-medium hover:bg-bg-soft aria-[current=page]:text-brand"
+							>
+								{texto}
+							</a>
+						))
+					}
+				</nav>
+			</details>
+		</div>
+	</div>
+</header>
+

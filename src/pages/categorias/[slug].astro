@@ -1,0 +1,86 @@
+---
+import ArrowLeft from '@lucide/astro/icons/arrow-left';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import Check from '@lucide/astro/icons/check';
+import IconeCategoria from '../../components/IconeCategoria.astro';
+import PostCard from '../../components/PostCard.astro';
+import Base from '../../layouts/Base.astro';
+import { CATEGORIAS, type CategoriaSlug } from '../../lib/categorias';
+import { getPosts } from '../../lib/posts';
+
+export function getStaticPaths() {
+	return Object.keys(CATEGORIAS).map((slug) => ({ params: { slug } }));
+}
+
+const slug = Astro.params.slug as CategoriaSlug;
+const categoria = CATEGORIAS[slug];
+const posts = (await getPosts()).filter((p) => p.data.category === slug);
+---
+
+<Base title={categoria.nome} description={categoria.resumo}>
+	<section class="container-site max-w-4xl pt-16">
+		<a href="/categorias/" class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-brand">
+			<ArrowLeft class="size-4" /> Todos os temas
+		</a>
+
+		<div class="mt-8 flex items-center gap-4">
+			<span
+				class="grid size-12 place-items-center rounded-xl"
+				style={`color:${categoria.cor};background:color-mix(in srgb, ${categoria.cor} 14%, transparent)`}
+			>
+				<IconeCategoria slug={slug} class="size-6" />
+			</span>
+			<h1 class="text-4xl font-bold tracking-tight">{categoria.nome}</h1>
+		</div>
+		<p class="mt-6 text-lg leading-relaxed">{categoria.resumo}</p>
+
+		{
+			categoria.fluxo && (
+				<ol class="mt-8 flex flex-wrap items-center gap-2 text-sm">
+					{categoria.fluxo.map((etapa, i) => (
+						<li class="flex items-center gap-2">
+							{i > 0 && <ArrowRight class="size-4 text-muted" />}
+							<span class="rounded-lg border border-line bg-bg-soft px-3 py-1.5 font-medium">{etapa}</span>
+						</li>
+					))}
+				</ol>
+			)
+		}
+
+		<h2 class="mt-12 text-xl font-bold tracking-tight">O que faço nessa área</h2>
+		<ul class="mt-4 space-y-3">
+			{
+				categoria.atuacao.map((item) => (
+					<li class="flex items-start gap-3 leading-relaxed">
+						<Check class="mt-1 size-4 shrink-0" style={`color:${categoria.cor}`} />
+						{item}
+					</li>
+				))
+			}
+		</ul>
+
+		<h2 class="mt-12 text-xl font-bold tracking-tight">Ferramentas</h2>
+		<ul class="mt-4 flex flex-wrap gap-2">
+			{
+				categoria.ferramentas.map((ferramenta) => (
+					<li class="rounded-lg border border-line bg-bg-soft px-3 py-1.5 font-mono text-sm">{ferramenta}</li>
+				))
+			}
+		</ul>
+
+		<h2 class="mt-16 text-xl font-bold tracking-tight">Artigos sobre {categoria.nome}</h2>
+		{
+			posts.length > 0 ? (
+				<div class="mt-6 grid gap-5 md:grid-cols-2">
+					{posts.map((post) => (
+						<PostCard post={post} />
+					))}
+				</div>
+			) : (
+				<p class="mt-6 rounded-2xl border border-dashed border-line p-8 text-center text-muted">
+					Ainda não escrevi sobre {categoria.nome}. Os primeiros artigos estão a caminho.
+				</p>
+			)
+		}
+	</section>
+</Base>

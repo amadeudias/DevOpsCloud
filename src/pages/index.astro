@@ -1,0 +1,124 @@
+---
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import MapPin from '@lucide/astro/icons/map-pin';
+import Avatar from '../components/Avatar.astro';
+import IconeCategoria from '../components/IconeCategoria.astro';
+import IconeMarca from '../components/IconeMarca.astro';
+import PostCard from '../components/PostCard.astro';
+import { AUTOR, SITE } from '../consts';
+import Base from '../layouts/Base.astro';
+import { CATEGORIAS, SLUGS_CATEGORIAS } from '../lib/categorias';
+import { getPosts } from '../lib/posts';
+
+const posts = await getPosts();
+const recentes = posts.slice(0, 4);
+const contagem = (slug: string) => posts.filter((p) => p.data.category === slug).length;
+
+const REDES = [
+	{ href: AUTOR.redes.linkedin, nome: 'linkedin', rotulo: 'LinkedIn' },
+	{ href: AUTOR.redes.github, nome: 'github', rotulo: 'GitHub' },
+	{ href: AUTOR.redes.instagram, nome: 'instagram', rotulo: 'Instagram' },
+] as const;
+---
+
+<Base title={SITE.title} description={SITE.description}>
+	<section class="container-site max-w-4xl pt-16 sm:pt-20">
+		<div class="flex flex-col gap-6 sm:flex-row sm:items-center">
+			<Avatar tamanho={112} class="rounded-full ring-4 ring-brand/20" />
+			<div>
+				<h1 class="text-3xl font-bold tracking-tight sm:text-4xl">{AUTOR.nome}</h1>
+				<p class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-muted">
+					<span>{AUTOR.cargo}</span>
+					<span aria-hidden="true">·</span>
+					<span class="inline-flex items-center gap-1"><MapPin class="size-4" /> {AUTOR.local}</span>
+				</p>
+			</div>
+		</div>
+
+		<div class="mt-8 max-w-2xl space-y-4 text-lg leading-relaxed">
+			<p>
+				Trabalho com infraestrutura há mais de 10 anos e hoje passo a maior parte do tempo desenhando e operando ambientes
+				na nuvem.
+			</p>
+			<p class="text-muted">
+				Este é o meu caderno público: escrevo aqui sobre projetos reais, o que aprendi com eles e tutoriais de AWS,
+				Terraform, Kubernetes, CI/CD e observabilidade. Se algo te ajudar, ou se você discordar, me chame nas redes.
+			</p>
+		</div>
+
+		<div class="mt-6 flex flex-wrap items-center gap-2 text-sm">
+			<a href="/sobre/" class="mr-2 inline-flex items-center gap-1 font-medium text-brand hover:underline">
+				Mais sobre mim <ArrowRight class="size-4" />
+			</a>
+			{
+				REDES.map(({ href, nome, rotulo }) => (
+					<a
+						href={href}
+						target="_blank"
+						rel="noopener"
+						aria-label={rotulo}
+						class="grid size-9 place-items-center rounded-md text-muted transition-colors hover:bg-bg-soft hover:text-brand"
+					>
+						<IconeMarca nome={nome} />
+					</a>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="container-site max-w-4xl mt-20">
+		<div class="flex items-end justify-between gap-4">
+			<h2 class="text-2xl font-bold tracking-tight">Artigos recentes</h2>
+			<a href="/blog/" class="inline-flex items-center gap-1 text-sm font-medium text-brand hover:underline">
+				Ver todos <ArrowRight class="size-4" />
+			</a>
+		</div>
+		{
+			recentes.length > 0 ? (
+				<div class="mt-6 grid gap-5 md:grid-cols-2">
+					{recentes.map((post) => (
+						<PostCard post={post} />
+					))}
+				</div>
+			) : (
+				<p class="mt-6 rounded-2xl border border-dashed border-line p-10 text-center text-muted">
+					Os primeiros artigos estão a caminho.
+				</p>
+			)
+		}
+	</section>
+
+	<section class="container-site max-w-4xl mt-20">
+		<h2 class="text-2xl font-bold tracking-tight">Sobre o que escrevo</h2>
+		<p class="mt-2 text-muted">Cada tema tem uma página com o que faço na área, as ferramentas que uso e os artigos.</p>
+		<ul class="mt-6 grid gap-3 sm:grid-cols-2">
+			{
+				SLUGS_CATEGORIAS.map((slug) => (
+					<li>
+						<a
+							href={`/categorias/${slug}/`}
+							class="group flex h-full items-start gap-4 rounded-2xl border border-line bg-surface p-5 transition hover:border-brand/40"
+						>
+							<span
+								class="grid size-10 shrink-0 place-items-center rounded-xl"
+								style={`color:${CATEGORIAS[slug].cor};background:color-mix(in srgb, ${CATEGORIAS[slug].cor} 14%, transparent)`}
+							>
+								<IconeCategoria slug={slug} class="size-5" />
+							</span>
+							<span class="min-w-0 flex-1">
+								<span class="flex items-center justify-between gap-2 font-semibold group-hover:text-brand">
+									{CATEGORIAS[slug].nome}
+									<ArrowRight class="size-4 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-brand" />
+								</span>
+								<span class="mt-1 block text-sm text-muted">{CATEGORIAS[slug].descricao}</span>
+								<span class="mt-2 block text-xs text-muted">
+									{contagem(slug)} {contagem(slug) === 1 ? 'artigo' : 'artigos'}
+								</span>
+							</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</Base>

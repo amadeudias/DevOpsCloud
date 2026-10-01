@@ -1,0 +1,107 @@
+---
+import Award from '@lucide/astro/icons/award';
+import Briefcase from '@lucide/astro/icons/briefcase';
+import Building from '@lucide/astro/icons/building';
+import MapPin from '@lucide/astro/icons/map-pin';
+import Avatar from '../components/Avatar.astro';
+import IconeMarca from '../components/IconeMarca.astro';
+import { AUTOR } from '../consts';
+import Base from '../layouts/Base.astro';
+
+const FATOS = [
+	{ icone: Briefcase, rotulo: 'Experiência', valor: AUTOR.experiencia },
+	{ icone: MapPin, rotulo: 'Local', valor: AUTOR.local },
+	{ icone: Building, rotulo: 'Empresa', valor: AUTOR.empresa.nome, href: AUTOR.empresa.url },
+];
+
+const REDES = [
+	{ href: AUTOR.redes.linkedin, nome: 'linkedin', rotulo: 'LinkedIn' },
+	{ href: AUTOR.redes.github, nome: 'github', rotulo: 'GitHub' },
+	{ href: AUTOR.redes.instagram, nome: 'instagram', rotulo: 'Instagram' },
+] as const;
+---
+
+<Base title="Sobre" description={`${AUTOR.nome}, ${AUTOR.cargo}. ${AUTOR.bio}`}>
+	<section class="container-site max-w-4xl pt-16">
+		<div class="flex flex-col gap-8 sm:flex-row sm:items-center">
+			<Avatar tamanho={112} class="rounded-3xl shadow-lg shadow-brand/20" />
+			<div>
+				<h1 class="text-4xl font-bold tracking-tight">{AUTOR.nome}</h1>
+				<p class="mt-2 text-lg text-muted">{AUTOR.cargo}</p>
+				<div class="mt-4 flex flex-wrap gap-2">
+					{
+						REDES.map(({ href, nome, rotulo }) => (
+							<a
+								href={href}
+								target="_blank"
+								rel="noopener"
+								class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-1.5 text-sm font-medium hover:border-brand/40 hover:text-brand"
+							>
+								<IconeMarca nome={nome} class="size-4" />
+								{rotulo}
+							</a>
+						))
+					}
+				</div>
+			</div>
+		</div>
+
+		<p class="mt-12 text-lg leading-relaxed">{AUTOR.bio}</p>
+		<p class="mt-4 text-lg leading-relaxed text-muted">
+			No blog, compartilho experiências reais de projetos, aprendizados em certificações, boas práticas e tutoriais técnicos
+			para profissionais de tecnologia que querem evoluir na carreira em cloud e DevOps.
+		</p>
+		<p class="mt-4 text-lg leading-relaxed text-muted">
+			Em observabilidade, implemento monitoramento com Prometheus, Loki e Grafana, integrando os alertas ao Microsoft Teams e
+			a ferramentas de chamados como Zendesk, Jira e ServiceNow.
+		</p>
+
+		<dl class="mt-12 grid gap-4 sm:grid-cols-3">
+			{
+				FATOS.map(({ icone: Icone, rotulo, valor, href }) => (
+					<div class="flex items-center gap-4 rounded-2xl border border-line bg-surface p-5">
+						<Icone class="size-5 text-brand" />
+						<div>
+							<dt class="text-xs text-muted">{rotulo}</dt>
+							<dd class="font-semibold">
+								{href ? (
+									<a href={href} class="hover:text-brand">
+										{valor}
+									</a>
+								) : (
+									valor
+								)}
+							</dd>
+						</div>
+					</div>
+				))
+			}
+		</dl>
+
+		<h2 class="mt-16 text-2xl font-bold tracking-tight">Certificações</h2>
+		<ul class="mt-6 grid gap-4 sm:grid-cols-2">
+			{
+				AUTOR.certificacoes.map(({ nome, emissor }) => (
+					<li class="flex items-start gap-4 rounded-2xl border border-line bg-surface p-5">
+						<span class="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand">
+							<Award class="size-5" />
+						</span>
+						<div>
+							<p class="font-semibold">{nome}</p>
+							<p class="mt-0.5 text-sm text-muted">{emissor}</p>
+						</div>
+					</li>
+				))
+			}
+		</ul>
+
+		<h2 class="mt-16 text-2xl font-bold tracking-tight">Tecnologias</h2>
+		<ul class="mt-6 flex flex-wrap gap-2">
+			{
+				AUTOR.tecnologias.map((tecnologia) => (
+					<li class="rounded-lg border border-line bg-bg-soft px-3 py-1.5 font-mono text-sm">{tecnologia}</li>
+				))
+			}
+		</ul>
+	</section>
+</Base>

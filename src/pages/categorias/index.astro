@@ -1,0 +1,41 @@
+---
+import IconeCategoria from '../../components/IconeCategoria.astro';
+import Base from '../../layouts/Base.astro';
+import { CATEGORIAS, type CategoriaSlug } from '../../lib/categorias';
+import { getPosts } from '../../lib/posts';
+
+const posts = await getPosts();
+const contagem = (slug: CategoriaSlug) => posts.filter((p) => p.data.category === slug).length;
+const slugs = Object.keys(CATEGORIAS) as CategoriaSlug[];
+---
+
+<Base title="Temas" description="Artigos organizados por área: AWS, DevOps, Kubernetes, IaC, observabilidade, segurança e FinOps.">
+	<section class="container-site pt-16">
+		<h1 class="text-4xl font-bold tracking-tight">Temas</h1>
+		<p class="mt-3 text-lg text-muted">As áreas em que atuo e sobre as quais escrevo.</p>
+		<ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+			{
+				slugs.map((slug) => (
+					<li>
+						<a
+							href={`/categorias/${slug}/`}
+							class="block h-full rounded-2xl border border-line bg-surface p-6 transition hover:border-brand/40"
+						>
+							<span
+								class="grid size-10 place-items-center rounded-xl"
+								style={`color:${CATEGORIAS[slug].cor};background:color-mix(in srgb, ${CATEGORIAS[slug].cor} 14%, transparent)`}
+							>
+								<IconeCategoria slug={slug} class="size-5" />
+							</span>
+							<p class="mt-4 font-semibold">{CATEGORIAS[slug].nome}</p>
+							<p class="mt-1 text-sm text-muted">{CATEGORIAS[slug].descricao}</p>
+							<p class="mt-4 text-xs text-muted">
+								{contagem(slug)} {contagem(slug) === 1 ? 'artigo' : 'artigos'}
+							</p>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</Base>
