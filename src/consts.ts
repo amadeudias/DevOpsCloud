@@ -25,5 +25,6 @@ export const AUTOR = {
 		linkedin: 'https://www.linkedin.com/in/amadeu-dias-158b8a146/',
 		github: 'https://github.com/amadeudias',
 		instagram: 'https://www.instagram.com/amadeudiasaws/',
+		whatsapp: `https://wa.me/5562981279056?text=${encodeURIComponent('Olá, Amadeu! Vim pelo seu blog.')}`,
 	},
 };

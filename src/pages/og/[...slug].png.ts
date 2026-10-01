@@ -17,7 +17,7 @@ export const getStaticPaths = (async () => {
 	return [
 		{
 			params: { slug: 'site' },
-			props: { titulo: 'Nuvem que funciona, do código ao alerta.', rotulo: AUTOR.cargo, cor: '#3b82f6' },
+			props: { titulo: 'Projetos reais e aprendizados sobre nuvem, DevOps e infraestrutura.', rotulo: AUTOR.cargo, cor: '#3b82f6' },
 		},
 		...posts.map((post) => ({
 			params: { slug: post.id },
@@ -33,12 +33,20 @@ export const getStaticPaths = (async () => {
 const fonte = (peso: 400 | 700) =>
 	readFile(new URL(`../../../node_modules/@fontsource/inter/files/inter-latin-${peso}-normal.woff`, import.meta.url));
 
+// Foto de perfil embutida como data URI, já reduzida ao tamanho exibido
+// Caminho relativo à raiz do projeto: o build roda a partir dela
+const foto = sharp('src/assets/foto-perfil.jpeg')
+	.resize(128, 128)
+	.jpeg()
+	.toBuffer()
+	.then((b) => `data:image/jpeg;base64,${b.toString('base64')}`);
+
 // satori recebe a árvore no formato de elementos React, sem precisar de JSX
 const h = (type: string, style: Record<string, unknown>, children?: unknown) => ({ type, props: { style, children } });
 
 export const GET: APIRoute<Props> = async ({ props }) => {
 	const { titulo, rotulo, cor } = props;
-	const [regular, negrito] = await Promise.all([fonte(400), fonte(700)]);
+	const [regular, negrito, fotoPerfil] = await Promise.all([fonte(400), fonte(700), foto]);
 
 	const arvore = h(
 		'div',
@@ -56,22 +64,10 @@ export const GET: APIRoute<Props> = async ({ props }) => {
 		},
 		[
 			h('div', { display: 'flex', alignItems: 'center', gap: '18px' }, [
-				h(
-					'div',
-					{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						width: '56px',
-						height: '56px',
-						borderRadius: '14px',
-						backgroundImage: 'linear-gradient(135deg, #0a6cf0, #0ea5e9)',
-						fontSize: '24px',
-						fontWeight: 700,
-						color: 'white',
-					},
-					'AD',
-				),
+				{
+					type: 'img',
+					props: { src: fotoPerfil, width: 64, height: 64, style: { borderRadius: '999px', border: '3px solid #0ea5e9' } },
+				},
 				h('div', { fontSize: '28px', color: '#94a3b8' }, new URL(SITE.url).host),
 			]),
 			h('div', { display: 'flex', flexDirection: 'column', gap: '28px' }, [
